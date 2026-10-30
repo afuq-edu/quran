@@ -1,0 +1,70 @@
+/* Design system for every Quran app (owner, 2026-10-30): colour tokens for light and dark, the Quranic and UI fonts,
+   and the shared components (app bar, cards, buttons, chips, the ayah block, the surah header). Link it from each app
+   with <link rel="stylesheet" href="../../assets/design.css"> and build with these classes, not new colours. */
+@import url("https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Noto+Naskh+Arabic:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap");
+
+:root {
+  --bg: #F6F3EC; --surface: #FFFFFF; --surface-2: #EFE9DC; --ink: #1E2421; --muted: #5F6B64; --line: #E1D9C7;
+  --brand: #0F6B4F; --brand-ink: #FFFFFF; --brand-soft: #E1F0EA; --gold: #B08A2E; --gold-soft: #F6EBCF;
+  --ok: #1F8A4C; --warn: #C27A0E; --bad: #C63E3E;
+  --radius: 16px; --radius-sm: 10px; --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+  --font-ui: "Tajawal", "Noto Naskh Arabic", Tahoma, system-ui, sans-serif;
+  --font-quran: "Amiri Quran", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --ayah-size: clamp(24px, 6vw, 34px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1512; --surface: #16201C; --surface-2: #1D2A25; --ink: #E9EFEB; --muted: #9DB0A6; --line: #2A3A33;
+    --brand: #4CC39A; --brand-ink: #062118; --brand-soft: #173329; --gold: #E0BD62; --gold-soft: #2D2715;
+    --ok: #4CC38A; --warn: #F0A63A; --bad: #F06A6A; --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1512; --surface: #16201C; --surface-2: #1D2A25; --ink: #E9EFEB; --muted: #9DB0A6; --line: #2A3A33;
+  --brand: #4CC39A; --brand-ink: #062118; --brand-soft: #173329; --gold: #E0BD62; --gold-soft: #2D2715;
+  --ok: #4CC38A; --warn: #F0A63A; --bad: #F06A6A; --shadow: none; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 17px; line-height: 1.7; }
+img, svg { max-width: 100%; }
+a { color: var(--brand); }
+code, .ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* layout */
+.app-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+  background: var(--surface); border-bottom: 1px solid var(--line); }
+.app-bar h1 { margin: 0; font-size: 19px; flex: 1; }
+.page { max-width: 760px; margin: 0 auto; padding: 16px 16px 48px; }
+.stack > * + * { margin-top: 12px; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.muted { color: var(--muted); }
+
+/* components */
+.card { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px;
+  box-shadow: var(--shadow); color: inherit; text-decoration: none; }
+a.card:hover { border-color: var(--brand); }
+.card h2, .card h3 { margin: 0 0 4px; font-size: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 8px 16px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 500; cursor: pointer; }
+.btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.btn:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.icon-btn { min-width: 44px; min-height: 44px; padding: 0; border-radius: 50%; }
+select, input[type="text"], input[type="search"], input[type="number"] { min-height: 44px; padding: 6px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; max-width: 100%; }
+.chip { display: inline-block; padding: 2px 12px; border-radius: 999px; background: var(--brand-soft); color: var(--ink); font-size: 14px; }
+.chip.gold { background: var(--gold-soft); }
+
+/* Quran */
+.surah-header { text-align: center; padding: 14px; border-radius: var(--radius); background: var(--gold-soft);
+  border: 1px solid var(--gold); font-family: var(--font-quran); font-size: clamp(22px, 5vw, 28px); }
+.basmala { text-align: center; font-family: var(--font-quran); font-size: var(--ayah-size); margin: 14px 0; }
+.ayah { font-family: var(--font-quran); font-size: var(--ayah-size); line-height: 2.2; text-align: justify; text-align-last: center; }
+.ayah-num { display: inline-flex; align-items: center; justify-content: center; min-width: 1.6em; height: 1.6em; margin: 0 .15em;
+  border: 1.5px solid var(--gold); border-radius: 50%; font-family: var(--font-ui); font-size: .5em; vertical-align: middle; color: var(--gold); }
+.ayah.active { background: var(--brand-soft); border-radius: var(--radius-sm); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="اقرأ أي سورة بالرسم العثماني وبخط واضح على الهاتف.">
+<meta name="theme-color" content="#0F6B4F">
+<title>المصحف الميسّر</title>
+<link rel="stylesheet" href="../../assets/design.css">
+<style>
+  /* styles that belong to this app only; shared ones live in assets/design.css */
+  .reader { margin-top: 16px; }
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+</head>
+<body>
+<header class="app-bar">
+  <a class="btn icon-btn" href="../../" aria-label="كل التطبيقات">→</a>
+  <h1>المصحف الميسّر</h1>
+  <button class="btn icon-btn" id="theme" type="button" aria-label="الوضع الفاتح أو الداكن">🌓</button>
+</header>
+
+<main class="page">
+  <p class="muted">اقرأ أي سورة بالرسم العثماني وبخط واضح على الهاتف.</p>
+
+  <!-- starter: pick a surah and read it. Replace with this app's own idea, keep reading ayat through Quran.load(). -->
+  <div class="row">
+    <label for="surah">السورة</label>
+    <select id="surah"></select>
+  </div>
+  <section class="reader" id="reader" aria-live="polite"></section>
+</main>
+
+<script src="../../assets/quran.js"></script>
+<script>
+(async function () {
+  Quran.Theme.init(document.getElementById('theme'));
+  var q = await Quran.load();
+  var sel = document.getElementById('surah'), reader = document.getElementById('reader');
+  q.surahs.forEach(function (s) {
+    var o = document.createElement('option');
+    o.value = s.id; o.textContent = Quran.digits(s.id) + '. ' + s.name;
+    sel.appendChild(o);
+  });
+  function show(n) {
+    var s = q.surah(n), html = '<div class="surah-header">سورة ' + s.name + '</div>';
+    if (n !== 1 && n !== 9) html += '<div class="basmala">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>';
+    html += '<p class="ayah">' + s.ayat.map(function (t, i) {
+      return '<span data-ayah="' + n + ':' + (i + 1) + '">' + t + '</span> <span class="ayah-num">' + Quran.digits(i + 1) + '</span>';
+    }).join(' ') + '</p>';
+    reader.innerHTML = html;
+  }
+  sel.addEventListener('change', function () { show(+sel.value); });
+  show(1);
+})();
+</script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', function () { navigator.serviceWorker.register('sw.js'); });</script>
+</body>
+</html>
