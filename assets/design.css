@@ -27,6 +27,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }   /* components set display, so hidden must win */
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 17px; line-height: 1.7; }
 img, svg { max-width: 100%; }
@@ -51,6 +52,7 @@ a.card:hover { border-color: var(--brand); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 8px 16px;
   border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 500; cursor: pointer; }
 .btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.btn:disabled { opacity: .4; cursor: default; }
 .btn:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 .icon-btn { min-width: 44px; min-height: 44px; padding: 0; border-radius: 50%; }
 select, input[type="text"], input[type="search"], input[type="number"] { min-height: 44px; padding: 6px 12px; border-radius: var(--radius-sm);

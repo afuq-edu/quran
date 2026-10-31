@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="قراءة متصلة بشكل المصحف، بثلاثة أزرار فقط.">
+<meta name="theme-color" content="#0F6B4F">
+<title>المصحف · صفحة المصحف</title>
+<link rel="stylesheet" href="../../assets/design.css">
+<style>
+  /* version 3: reads like a printed mushaf — framed page, continuous text, the surahs flow one after another;
+     everything else is three buttons in a bottom bar */
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .top { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); transition: transform .25s; }
+  .top.hide { transform: translateY(-100%); }
+  .top b { font-family: var(--font-quran); font-size: 22px; font-weight: 400; }
+  .top small { color: var(--muted); }
+  .top a { position: absolute; inset-inline-start: 10px; }
+  .sheet-page { max-width: 720px; margin: 6px auto 0; padding: 0 12px; }
+  .frame { padding: 18px 16px 22px; background: var(--surface); border: 2px solid var(--gold); border-radius: 18px;
+    box-shadow: inset 0 0 0 5px var(--surface), inset 0 0 0 6px var(--gold-soft); }
+  .frame + .frame { margin-top: 16px; }
+  .title { position: relative; margin: 0 0 6px; padding: 10px; text-align: center; font-family: var(--font-quran); font-size: 26px; font-weight: 400;
+    border-radius: 12px; background: var(--gold-soft); border: 1px solid var(--gold); }
+  .title small { display: block; font-family: var(--font-ui); font-size: 13px; color: var(--muted); }
+  .frame .ayah { margin: 6px 0 0; }
+  .more { display: flex; justify-content: center; padding: 18px; }
+  .bar { position: fixed; inset-inline: 0; bottom: 0; z-index: 15; display: grid; grid-template-columns: repeat(3, 1fr);
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--line); }
+  .bar button { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 58px; border: 0; border-radius: 14px; background: none;
+    color: var(--ink); font: inherit; font-size: 13.5px; cursor: pointer; }
+  .bar button:active, .bar button[aria-expanded="true"] { background: var(--brand-soft); }
+  .bar .ic { font-size: 22px; line-height: 1.2; }
+  .pop { position: fixed; inset-inline: 10px; bottom: calc(80px + env(safe-area-inset-bottom)); z-index: 16; display: none; max-width: 700px; margin: 0 auto;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.18); padding: 12px; }
+  .pop.open { display: block; }
+  #surahs { max-height: 55dvh; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; }
+  #surahs button { min-height: 48px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); font-family: var(--font-quran);
+    font-size: 19px; cursor: pointer; }
+  #surahs button.cur { border-color: var(--brand); background: var(--brand-soft); }
+  .sizes { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .sizes .sample { flex: 1; text-align: center; font-family: var(--font-quran); font-size: var(--ayah-size); line-height: 1.6; }
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+</head>
+<body>
+<header class="top" id="top">
+  <a class="btn icon-btn" href="../../" aria-label="رجوع">→</a>
+  <b id="cur"></b><small id="curA"></small>
+</header>
+
+<main class="sheet-page" id="pages" aria-live="polite"></main>
+<div class="more"><button class="btn primary" id="more" type="button" hidden></button></div>
+
+<div class="pop" id="popSurah" role="dialog" aria-label="السور"><div id="surahs"></div></div>
+<div class="pop" id="popSize" role="dialog" aria-label="حجم الخط">
+  <div class="sizes">
+    <button class="btn icon-btn" id="bigger" type="button" aria-label="تكبير">ا+</button>
+    <div class="sample">ٱلۡحَمۡدُ لِلَّهِ</div>
+    <button class="btn icon-btn" id="smaller" type="button" aria-label="تصغير">ا-</button>
+  </div>
+</div>
+
+<nav class="bar">
+  <button type="button" id="bSurah" aria-expanded="false"><span class="ic">📖</span>السور</button>
+  <button type="button" id="bSize" aria-expanded="false"><span class="ic">🔠</span>حجم الخط</button>
+  <button type="button" id="theme"><span class="ic">🌓</span>الوضع</button>
+</nav>
+
+<script src="../../assets/quran.js"></script>
+<script>
+(async function () {
+  var KEY = 'mushaf-page', st = { s: 1, a: 1, size: 28 };
+  try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  var $ = function (id) { return document.getElementById(id); };
+  Quran.Theme.init($('theme'));
+  function setSize(n) { st.size = Math.max(22, Math.min(46, n)); document.documentElement.style.setProperty('--ayah-size', st.size + 'px'); save(); }
+  setSize(st.size);
+  $('smaller').onclick = function () { setSize(st.size - 3); };
+  $('bigger').onclick = function () { setSize(st.size + 3); };
+
+  var q = await Quran.load(), last = 0, io;
+  function frame(n) {
+    var s = q.surah(n), f = document.createElement('section');
+    f.className = 'frame'; f.id = 's' + n;
+    f.innerHTML = '<h2 class="title">سورة ' + s.name + '<small>' + (s.type === 'meccan' ? 'مكية' : 'مدنية') + ' · آياتها ' + Quran.digits(s.ayat.length) + '</small></h2>' +
+      (n !== 1 && n !== 9 ? '<div class="basmala">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>' : '') +
+      '<p class="ayah">' + s.ayat.map(function (t, i) {
+        return '<span data-ayah="' + n + ':' + (i + 1) + '">' + t + '</span> <span class="ayah-num">' + Quran.digits(i + 1) + '</span>';
+      }).join(' ') + '</p>';
+    $('pages').appendChild(f);
+    f.querySelectorAll('[data-ayah]').forEach(function (x) { io.observe(x); });
+    last = n;
+    $('more').hidden = n === 114;
+    if (n < 114) $('more').textContent = 'سورة ' + q.surah(n + 1).name + ' ↓';
+  }
+  function start(n, a) {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (es) {
+      es.forEach(function (x) {
+        if (!x.isIntersecting) return;
+        var r = x.target.dataset.ayah.split(':'); st.s = +r[0]; st.a = +r[1]; save();
+        $('cur').textContent = 'سورة ' + q.surah(st.s).name; $('curA').textContent = 'الآية ' + Quran.digits(st.a);
+      });
+    }, { rootMargin: '-30% 0px -65% 0px' });
+    $('pages').innerHTML = ''; frame(n);
+    $('cur').textContent = 'سورة ' + q.surah(n).name; $('curA').textContent = '';
+    var el = a > 1 && document.querySelector('[data-ayah="' + n + ':' + a + '"]');
+    if (el) el.scrollIntoView({ block: 'center' }); else scrollTo(0, 0);
+  }
+  $('more').onclick = function () { frame(last + 1); };
+  // the next surah follows on its own when the reader reaches the end of the page
+  new IntersectionObserver(function (es) { if (es[0].isIntersecting && last && last < 114 && $('pages').children.length < 8) frame(last + 1); })
+    .observe($('more'));
+
+  var y0 = 0;
+  addEventListener('scroll', function () { var y = scrollY; $('top').classList.toggle('hide', y > y0 && y > 120); y0 = y; }, { passive: true });
+
+  function pop(id, btn) {
+    ['popSurah', 'popSize'].forEach(function (p) { var open = p === id && !$(p).classList.contains('open'); $(p).classList.toggle('open', open); });
+    $('bSurah').setAttribute('aria-expanded', $('popSurah').classList.contains('open'));
+    $('bSize').setAttribute('aria-expanded', $('popSize').classList.contains('open'));
+    if ($('popSurah').classList.contains('open')) {
+      $('surahs').innerHTML = q.surahs.map(function (s) {
+        return '<button type="button" data-s="' + s.id + '"' + (s.id === st.s ? ' class="cur"' : '') + '>' + s.name + '</button>';
+      }).join('');
+      var c = $('surahs').querySelector('.cur'); if (c) c.scrollIntoView({ block: 'center' });
+    }
+  }
+  $('bSurah').onclick = function () { pop('popSurah'); };
+  $('bSize').onclick = function () { pop('popSize'); };
+  $('surahs').addEventListener('click', function (e) { var b = e.target.closest('button[data-s]'); if (b) { pop(''); start(+b.dataset.s, 1); } });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.pop, .bar')) pop(''); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape') pop(''); });
+
+  start(st.s, st.a);
+})();
+</script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', function () { navigator.serviceWorker.register('sw.js'); });</script>
+</body>
+</html>
