@@ -1728,7 +1728,7 @@ function controlsHTML(c){var h='';
   if(c==='pages'){var t=T(),ms=tMs();
     h+='<div class="primary"><button class="btn" data-act="tm-toggle">'+(t.run?I.pause+'إيقاف مؤقت':I.play+(ms?'استئناف القراءة':'بدء القراءة'))+'</button></div>';
     h+='<div class="trio"><button class="sq glass" data-act="tm-reset"'+(ms?'':' disabled')+'><span class="ci">'+MI.reset+'</span>إعادة الضبط</button><button class="sq glass" data-act="tm-pause"'+(t.run?'':' disabled')+'><span class="ci">'+MI.pausec+'</span>إيقاف مؤقت</button><button class="sq glass" data-act="tm-finish"'+(ms?'':' disabled')+'><span class="ci">'+MI.stopc+'</span>إنهاء الجلسة</button></div>';}
-  else{h+='<div class="primary"><button class="btn" data-act="htap">'+MI.plus+'اضغط للتسبيح</button></div>';
+  else{
     h+='<div class="trio"><button class="sq glass" data-act="tap-undo"><span class="ci">'+MI.undoc+'</span>تراجع</button><button class="sq glass" data-act="tap-new"><span class="ci">'+MI.reset+'</span>جولة جديدة</button><button class="sq glass" data-act="open" data-c="dhikr"><span class="ci">'+MI.target+'</span>هدف الجولة</button></div>';}
   return h;}
 function archHTML(c){var t=c==='pages'?['وقت قراءتي','رحلتك اليومية مع كتاب الله']:['وِردي من الذكر','لا يزال لسانك رطباً بذكر الله'];
