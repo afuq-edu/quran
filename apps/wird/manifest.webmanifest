@@ -7,8 +7,10 @@
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#E9F1FA",
- "theme_color": "#E9F1FA",
+ "id": "./",
+ "background_color": "#12164A",
+ "theme_color": "#12164A",
+ "description": "متابعة وِرد القرآن والذكر",
  "icons": [
   {
    "src": "icon-192.png",
