@@ -1539,24 +1539,23 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 .st-bar.was em{opacity:.42}
 .st-bar.was b{color:var(--ink2);font-weight:600}
 </style>
-<style id="owner1122">/* owner 2026-11-22: the status is a small round button at the corner of the dial, opposite the focus button, not a wide
-   card above it: gold flag = «عوّض الآن», green check = on track, quiet icon = rest day / before dawn.
-   The element stays where the card was (right before the dial) with no height, so lyStateUp() keeps working. */
-.ly-state.ly-cub{display:block;position:relative;height:0;margin:0!important;padding:0;border:0!important;background:none!important;box-shadow:none!important;overflow:visible;z-index:4}
-.ly-state.ly-cub::before{content:none}
-.ly-cubtn{position:absolute;top:22px;inset-inline-start:calc(50% - min(145px,39vw) - 4px);width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;
-  color:#2a1a00;background:linear-gradient(145deg,#FFE9AE,#F2B84B);box-shadow:0 6px 16px -6px rgba(242,184,75,.85),inset 0 1px 0 rgba(255,255,255,.55)}
-.ly-cubtn svg{width:20px;height:20px}
-.ly-cubtn:active{transform:scale(.94)}
-.ly-cubtn.k-late::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid #F2CF7A;opacity:0;animation:lycub 2.6s ease-out infinite;pointer-events:none}
-@keyframes lycub{0%{transform:scale(.86);opacity:.75}70%,100%{transform:scale(1.28);opacity:0}}
-:root:not([data-look="layl"]) .ly-cubtn{inset-inline-start:auto;inset-inline-end:calc(50% - min(35vw,140px) - 8px);top:31px;width:40px;height:40px}
-:root:not([data-look="layl"]) .ly-cubtn svg{width:18px;height:18px}
-.ly-cubtn.k-ok,.ly-cubtn.k-done{color:#04351f;background:linear-gradient(145deg,#9BF0C2,#2FB87C);box-shadow:0 6px 16px -6px rgba(47,184,124,.8),inset 0 1px 0 rgba(255,255,255,.55)}
-.ly-cubtn.k-ok svg,.ly-cubtn.k-done svg{stroke-width:2.6}
-.ly-cubtn.k-rest{color:var(--ink2);background:var(--glass2,rgba(255,255,255,.08));border:1px solid var(--rim);box-shadow:none}
-@media (prefers-reduced-motion:reduce){.ly-cubtn.k-late::after{animation:none}}
-:root[data-motion="off"] .ly-cubtn.k-late::after{animation:none}
+<style id="owner1122">/* owner 2026-11-22 (second round): no status icon above the dial; the «مسار … اليوم» card opens the catch-up road when late */
+.ly-state.ly-cub{display:none!important}
+#jrBox.jr-go{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s var(--ease,ease)}
+#jrBox.jr-go:active{transform:scale(.985)}
+#jrBox.jr-go:focus-visible{outline:2px solid var(--late);outline-offset:3px}
+.chip.jr-cta{display:inline-flex;align-items:center;gap:6px;background:var(--late);color:#fff;font-weight:700;padding-inline:12px 10px;box-shadow:0 6px 16px -8px var(--late)}
+.chip.jr-cta i{font-style:normal;font-size:1.1em;line-height:1}
+/* «اذا تاخرت يصير شكل الثيم احمر»: a colour layer over the sky (under the content) + red accents, only while late */
+#riskTint{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease;
+  background:radial-gradient(130% 90% at 50% 0%,#ff2d3d 0%,#c4121f 55%,#6e0710 100%);mix-blend-mode:color}
+:root[data-risk="late"] #riskTint{opacity:.82}
+:root[data-risk="late"]{--accent:#E5484D;--accent2:#C9343A;--accent-soft:rgba(229,72,77,.16);--late:#F0444B;--glow:#FF8A80;--c-pages:#E5484D;--c-dhikr:#E5484D}
+:root[data-risk="late"][data-theme="dark"]{--accent:#FF6B6F;--accent2:#F0484E;--accent-soft:rgba(255,107,111,.18);--late:#FF5A60}
+:root[data-risk="late"] body{background-color:#2a0508}
+:root[data-risk="late"]:not([data-theme="dark"]) body{background-color:#fbe9ea}
+:root[data-risk="late"] #v-today .ly-go{background:linear-gradient(120deg,#FF8A7A 0%,#F0444B 55%,#C21E2C 100%)!important;color:#fff!important;box-shadow:0 14px 34px -14px rgba(240,68,75,.85)!important}
+@media (prefers-reduced-motion:reduce){#riskTint{transition:none}}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1567,7 +1566,7 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 22/11 16:55";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 22/11 20:05";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 
@@ -2125,7 +2124,7 @@ function jStations(j){var h='<div class="stns" style="--n:'+j.cp.filter(function
   return h+'</div>';}
 function journeyHTML(c,compact){var j=jInfo(c),s=JST[j.st];
   if(compact)return '<div class="jr mini js-'+s[0]+'">'+jBanner(j)+jChart(j,true)+'</div>';
-  var h='<section class="card jr js-'+s[0]+'" id="jrBox"><div class="between"><div><h3 class="h">مسار '+esc(CF(c).label)+' اليوم</h3><small class="sub num">'+fmt(j.v)+' من '+fmt(j.G)+' '+esc(j.u)+' · '+pct(Math.min(100,j.v/j.G*100))+'</small></div><span class="chip '+s[0]+'">'+s[1]+'</span></div>';
+  var jl=j.st==='late'&&j.ex>j.v;var h='<section class="card jr js-'+s[0]+(jl?' jr-go':'')+'" id="jrBox"'+(jl?' data-act="cu-start" data-c="'+c+'" data-n="'+(j.ex-j.v)+'" role="button" tabindex="0" aria-label="مسار '+esc(CF(c).label)+' اليوم: '+s[1]+'، اضغط للتعويض"':'')+'><div class="between"><div><h3 class="h">مسار '+esc(CF(c).label)+' اليوم</h3><small class="sub num">'+fmt(j.v)+' من '+fmt(j.G)+' '+esc(j.u)+' · '+pct(Math.min(100,j.v/j.G*100))+'</small></div>'+(jl?'<span class="chip '+s[0]+' jr-cta">عوّض الآن<i aria-hidden="true">‹</i></span>':'<span class="chip '+s[0]+'">'+s[1]+'</span>')+'</div>';
   h+=jBanner(j);
   h+=jPlan(j);
   return h+'</section>';}
@@ -3093,8 +3092,7 @@ function lyState(c){var j=jInfo(c),pg=c==='pages',n=j.n,big,sub,ic,cls=j.st,btn=
   else if(j.st==='done'){cls='done';ic=I.star;big='اكتمل هدف اليوم';sub=j.v>j.G?'زيادة '+(pg?fmtDur(j.v-j.G):fmt(j.v-j.G)+' '+esc(j.u))+'، ما شاء الله':'ما شاء الله، تقبّل الله منك';}
   else if(j.st==='rest'){cls='rest';ic=I.rest;big='يوم راحة';sub='لا يُحسب التأخير اليوم ولا تنقطع سلسلتك';}
   else{cls='rest';ic=MI.moonc;big='المسار يبدأ مع الفجر';sub='يبدأ الحساب عند '+fmtClock(j.cp[0].m);}
-  if(j.st==='late')return '<div class="ly-state s-late ly-cub" id="lyState"><button type="button" class="ly-cubtn k-late" data-act="cu-start" data-c="'+c+'" data-n="'+(j.ex-j.v)+'" aria-label="عوّض الآن، '+big+'" title="عوّض الآن">'+CUI+'</button></div>';
-  return '<div class="ly-state s-'+cls+' ly-cub" id="lyState"><button type="button" class="ly-cubtn k-'+cls+'" data-lytip="'+esc(big+(sub?' · '+sub:''))+'" aria-label="'+esc(big)+'">'+(cls==='ok'||cls==='done'?I.check:ic)+'</button></div>';
+  return '<div class="ly-state s-'+cls+' ly-cub" id="lyState" hidden></div>';
   return '<section class="'+(LYL()?'ly-card':'card')+' ly-state s-'+cls+'" id="lyState" role="status"><i class="ly-si">'+ic+'</i><div class="ly-sx"><b>'+big+'</b><small>'+sub+'</small></div>'+btn+'</section>';}
 function lyOk(){var s=$('#lyState'),v=$('#v-today');if(!v)return;var ok=!!(s&&(s.classList.contains('s-ok')||s.classList.contains('s-done')));v.classList.toggle('ly-ok',ok);v.classList.toggle('ly-late',!!(s&&s.classList.contains('s-late')));}
 function lyStateUp(){var s=$('#lyState');if(!s)return;var c=homeMode(),h=lyTint(lyState(c));if(s.outerHTML!==h){s.outerHTML=h;lyOk();}}
@@ -3135,7 +3133,7 @@ function cuHTML(){var u=cuGet();if(!u)return '';var d=cuDone(u),r=Math.max(0,u.n
     +'<path d="'+CMR+'" class="cm-bed"/><path d="'+CMR+'" class="cm-dash"/><path id="cmP" d="'+CMR+'" class="cm-lit"/>'
     +CUS.map(function(x,i){var on=i<st,nx=i===st&&!fin;return '<g class="cm-n'+(on?' on':'')+(nx?' nx':'')+'" id="cmN'+i+'"><circle r="19" class="h"/><circle r="14" class="c"/>'+(on?'<path d="M-6 0l4 4 8-8" class="k"/>':'<text class="num" y="5">'+fmt(i+1)+'</text>')+'<text class="t" y="5">'+x.t+'</text></g>';}).join('')
     +'<g class="cm-me" id="cmMe"><circle r="13" class="g"/><circle r="7.5" class="d"/></g><g id="cmS"><circle r="5" class="cm-s0"/></g></svg></div>';
-  h+='<div class="cm-big"><b class="num">'+cuq(u,d)+'</b><small>من '+cuq(u,u.need)+(fin?'':' · باقي '+cuq(u,r))+'</small></div>';
+
   
   if(fin)h+='<button class="btn gold cm-go" data-act="cu-finish">'+I.check+'الحمد لله، أنهيت</button>';
   else if(pg){var t=T(),ms=tMs();h+='<div class="cm-tm num ltr" id="cmT">'+lyHMS(ms/1000)+'</div><button class="btn cm-go" data-act="tm-toggle">'+(t.run?I.pause+'إيقاف مؤقت':I.play+(ms?'استئناف القراءة':'ابدأ القراءة'))+'</button>';}
@@ -3242,9 +3240,17 @@ if(!ST.meta.jadInit){ST.meta.jadInit=1;ST.s.skin='jannahd';save();}
 if(!ST.meta.kusInit){ST.meta.kusInit=1;ST.s.skin='kusuf';save();}
 if(ST.s.skin==='mihrab'){ST.s.skin='kusuf';save();}
 if(!ST.meta.pgInit){ST.meta.pgInit=1;syncGoal('pages');save();} (function(){var g={leaves:'galaxy',wind:'galaxy',light:'galaxy',oasis:'sky',sunset:'sky',desert:'sky'},ch=0;var pc=ST.s.cats&&ST.s.cats.pages;if(pc&&pc.pg!==false){CF('pages');ch=1;}if(g[ST.s.skin]){ST.s.skin=g[ST.s.skin];ch=1;}if(ST.meta&&g[ST.meta.lylPrev]){ST.meta.lylPrev=g[ST.meta.lylPrev];ch=1;}if(ch)save();})();
-/* the round status button at the dial (owner 2026-11-22): when it is not «عوّض الآن», a tap says the status line */
-document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-lytip]');if(!b)return;
-  try{buzz(8);}catch(e){}toast(b.getAttribute('data-lytip'),{gold:true});});
+/* owner 2026-11-22: «امسح مساعدك الذكي» — the smart card is no longer on the home (the analysis stays in التقارير) */
+smartCard=function(){return '';};
+/* «اذا تاخرت يصير شكل الثيم احمر دليل ع الخطر واذا كنت بالمسار يكون شكل الثيم الطبيعي»: while the goal shown on the home is
+   behind its pace, the whole theme turns red (a colour layer over the sky + red accents); back on track, the theme is itself again. */
+function riskUp(){var late=false;try{var j=jInfo(homeMode());late=j.st==='late'&&j.ex>j.v;}catch(e){}
+  if(late!==(root.getAttribute('data-risk')==='late')){if(late)root.setAttribute('data-risk','late');else root.removeAttribute('data-risk');}}
+(function(){if(!document.getElementById('riskTint'))document.body.insertAdjacentHTML('beforeend','<div id="riskTint" aria-hidden="true"></div>');
+  var lo=lyOk;lyOk=function(){lo.apply(this,arguments);riskUp();};
+  var rf=refresh;refresh=function(){rf.apply(this,arguments);riskUp();};
+  setInterval(riskUp,30000);
+  document.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var b=ev.target;if(b&&b.id==='jrBox'&&b.dataset.act){ev.preventDefault();b.click();}});})();
 
 
 /* ---------- «طور الاحصائيات» (owner 2026-11-22) ----------
