@@ -1560,26 +1560,9 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #jrBox.jr-go:focus-visible{outline:2px solid var(--late);outline-offset:3px}
 .chip.jr-cta{display:inline-flex;align-items:center;gap:6px;background:var(--late);color:#fff;font-weight:700;padding-inline:12px 10px;box-shadow:0 6px 16px -8px var(--late)}
 .chip.jr-cta i{font-style:normal;font-size:1.1em;line-height:1}
-/* «اذا تاخرت يصير شكل الثيم احمر»: a colour layer over the sky (under the content) + red accents, only while late */
-#riskTint{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease;
-  background:radial-gradient(130% 90% at 50% 0%,#ff2d3d 0%,#c4121f 55%,#6e0710 100%);mix-blend-mode:color}
-:root[data-risk="late"] #riskTint{opacity:.82}
-:root[data-risk="late"]{--accent:#E5484D;--accent2:#C9343A;--accent-soft:rgba(229,72,77,.16);--late:#F0444B;--glow:#FF8A80;--c-pages:#E5484D;--c-dhikr:#E5484D}
-:root[data-risk="late"][data-theme="dark"]{--accent:#FF6B6F;--accent2:#F0484E;--accent-soft:rgba(255,107,111,.18);--late:#FF5A60}
-:root[data-risk="late"] body{background-color:#2a0508}
-:root[data-risk="late"]:not([data-theme="dark"]) body{background-color:#fbe9ea}
-:root[data-risk="late"] #v-today .ly-go{background:linear-gradient(120deg,#FF8A7A 0%,#F0444B 55%,#C21E2C 100%)!important;color:#fff!important;box-shadow:0 14px 34px -14px rgba(240,68,75,.85)!important}
-@media (prefers-reduced-motion:reduce){#riskTint{transition:none}}
-/* 32: red by degree (1 = a little behind → orange, 3 = far behind → deep red) */
-:root[data-rl="1"] #riskTint{background:radial-gradient(130% 90% at 50% 0%,#ff9a3c 0%,#e2612a 55%,#7a2a0e 100%);opacity:.62}
-:root[data-rl="1"]{--accent:#F08A3C;--accent2:#D9692A;--accent-soft:rgba(240,138,60,.16);--late:#F08A3C}
-:root[data-rl="1"] #v-today .ly-go{background:linear-gradient(120deg,#FFC08A 0%,#F08A3C 55%,#C9561E 100%)!important}
-:root[data-rl="2"] #riskTint{background:radial-gradient(130% 90% at 50% 0%,#ff5a3a 0%,#d22a24 55%,#701010 100%);opacity:.74}
-:root[data-rl="3"] #riskTint{opacity:.9}
 /* 34: the sky brightens with progress; 33: a quiet golden light once the goal is reached */
 #progLight,#doneTint{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity 1.2s ease}
 #progLight{background:radial-gradient(120% 70% at 50% 8%,#fff6dc 0%,rgba(255,246,220,.35) 40%,transparent 75%);mix-blend-mode:soft-light;opacity:calc(var(--prog,0)*.85)}
-:root[data-risk="late"] #progLight{opacity:0}
 #doneTint{opacity:0;background:radial-gradient(120% 80% at 50% 0%,rgba(255,214,120,.55) 0%,rgba(255,196,90,.18) 45%,transparent 80%);mix-blend-mode:screen}
 :root[data-glow="done"] #doneTint{opacity:.7}
 :root[data-glow="done"]{--accent:var(--gold);--accent-soft:color-mix(in srgb,var(--gold) 18%,transparent)}
@@ -1619,7 +1602,7 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 22/11 20:33";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 22/11 20:55";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="sp-r" cx="60" cy="60" r="52"/><path class="sp-m" d="M72 30a32 32 0 1 0 18 52a26 26 0 1 1-18-52z"/></svg><b>وِرد</b><small>قرآن وذكر كل يوم</small></div>
@@ -3298,23 +3281,21 @@ if(!ST.meta.pgInit){ST.meta.pgInit=1;syncGoal('pages');save();} (function(){var 
 smartCard=function(){return '';};
 /* «اذا تاخرت يصير شكل الثيم احمر دليل ع الخطر واذا كنت بالمسار يكون شكل الثيم الطبيعي»: while the goal shown on the home is
    behind its pace, the whole theme turns red (a colour layer over the sky + red accents); back on track, the theme is itself again. */
-function riskUp(){var late=false;try{var j=jInfo(homeMode());late=j.st==='late'&&j.ex>j.v;}catch(e){}
-  if(late!==(root.getAttribute('data-risk')==='late')){if(late)root.setAttribute('data-risk','late');else root.removeAttribute('data-risk');}}
-(function(){if(!document.getElementById('riskTint'))document.body.insertAdjacentHTML('beforeend','<div id="riskTint" aria-hidden="true"></div>');
+function riskUp(){}
+(function(){
   var lo=lyOk;lyOk=function(){lo.apply(this,arguments);riskUp();};
   var rf=refresh;refresh=function(){rf.apply(this,arguments);riskUp();};
   setInterval(riskUp,30000);
   document.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var b=ev.target;if(b&&b.id==='jrBox'&&b.dataset.act){ev.preventDefault();b.click();}});})();
 /* ---------- owner picks from the 50 ideas (2026-11-22) ----------
-   32 red by degree: orange when a little behind, deeper red the further behind (data-rl 1..3)
+   (32 «red by degree» was dropped with the red theme the same evening)
    33 after the day's goal is reached, a quiet golden light for the rest of the day (data-glow="done")
    34 the sky brightens as you near the goal (--prog 0..1 drives #progLight)
    36 «الليلة المقمرة» is always a night theme */
 (function(){var old=riskUp;
   riskUp=function(){var j=null;try{j=jInfo(homeMode());}catch(e){}
     var late=!!(j&&j.st==='late'&&j.ex>j.v),done=!!(j&&j.st==='done'),r=late?(j.ex-j.v)/Math.max(1,j.G):0,lv=late?(r<.08?1:r<.2?2:3):0,p=j?Math.max(0,Math.min(1,j.v/Math.max(1,j.G))):0;
-    if(late)root.setAttribute('data-risk','late');else root.removeAttribute('data-risk');
-    if(lv)root.setAttribute('data-rl',lv);else root.removeAttribute('data-rl');
+    /* «الغي فكرة احمرار الواجهة» (owner 2026-11-22, later): no red theme any more; late and lv stay unused */
     if(done)root.setAttribute('data-glow','done');else root.removeAttribute('data-glow');
     var ps=p.toFixed(2);if(root.style.getPropertyValue('--prog')!==ps)root.style.setProperty('--prog',ps);};
   if(!document.getElementById('progLight'))document.body.insertAdjacentHTML('beforeend','<div id="progLight" aria-hidden="true"></div><div id="doneTint" aria-hidden="true"></div>');
@@ -3322,6 +3303,10 @@ function riskUp(){var late=false;try{var j=jInfo(homeMode());late=j.st==='late'&
   var at=applyTheme;applyTheme=function(){at.apply(this,arguments);try{if(skinNow()==='moon')root.setAttribute('data-theme','dark');}catch(e){}};
   try{applyTheme();}catch(e){}
   setTimeout(function(){var s=document.getElementById('splash');if(s)s.remove();},2200);})();
+
+/* «الغي ثيم الكسوف» (owner 2026-11-22): the eclipse scene theme is gone; whoever had it (it was the default for new users) moves to «ليلة» */
+delete SKINS.kusuf;delete LYS.kusuf;
+(function(){var ch=0;if(ST.s.skin==='kusuf'){ST.s.skin='layl';ch=1;}if(ST.meta&&ST.meta.lylPrev==='kusuf'){ST.meta.lylPrev='layl';ch=1;}if(ch)save();try{applyTheme();}catch(e){}})();
 
 
 /* ---------- «طور الاحصائيات» (owner 2026-11-22) ----------
