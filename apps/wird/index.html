@@ -1521,6 +1521,24 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #scene,#amb,#lylSky{contain:strict;transform:translateZ(0)}
 .view.enter>*{animation-duration:.4s}
 </style>
+<style id="st1122">/* statistics in three short sections + the comparison card (owner 2026-11-22: «طور الاحصائيات») */
+.st-sec{display:flex;gap:8px;margin:12px 0 2px}
+.st-sec button{flex:1;min-height:44px;border-radius:999px;border:1px solid var(--rim);background:var(--glass2);color:var(--ink2);font:600 .92rem var(--f-body)}
+.st-sec button[aria-selected="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+#v-reports[data-sec="sum"]>[data-sec]:not([data-sec="sum"]),
+#v-reports[data-sec="prog"]>[data-sec]:not([data-sec="prog"]),
+#v-reports[data-sec="ana"]>[data-sec]:not([data-sec="ana"]){display:none!important}
+.st-cmp .st-row{margin-top:14px}
+.st-cmp .st-row>.between b{font-size:.98rem}
+.st-bar span{white-space:nowrap}
+.st-bar{display:grid;grid-template-columns:7.4em 1fr auto;align-items:center;gap:10px;margin-top:8px;font-size:.84rem;color:var(--ink2)}
+.st-bar i{display:block;height:10px;border-radius:999px;background:var(--track);overflow:hidden}
+.st-bar em{display:block;height:100%;min-width:4px;border-radius:999px;background:var(--sc,var(--accent))}
+.st-bar b{min-width:4.6em;text-align:end;color:var(--ink);font-weight:700}
+.st-bar.was{color:var(--muted)}
+.st-bar.was em{opacity:.42}
+.st-bar.was b{color:var(--ink2);font-weight:600}
+</style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1530,7 +1548,7 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 22/11 15:17";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 22/11 15:21";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 
@@ -3203,6 +3221,46 @@ if(!ST.meta.jadInit){ST.meta.jadInit=1;ST.s.skin='jannahd';save();}
 if(!ST.meta.kusInit){ST.meta.kusInit=1;ST.s.skin='kusuf';save();}
 if(ST.s.skin==='mihrab'){ST.s.skin='kusuf';save();}
 if(!ST.meta.pgInit){ST.meta.pgInit=1;syncGoal('pages');save();} (function(){var g={leaves:'galaxy',wind:'galaxy',light:'galaxy',oasis:'sky',sunset:'sky',desert:'sky'},ch=0;var pc=ST.s.cats&&ST.s.cats.pages;if(pc&&pc.pg!==false){CF('pages');ch=1;}if(g[ST.s.skin]){ST.s.skin=g[ST.s.skin];ch=1;}if(ST.meta&&g[ST.meta.lylPrev]){ST.meta.lylPrev=g[ST.meta.lylPrev];ch=1;}if(ch)save();})();
+/* ---------- «طور الاحصائيات» (owner 2026-11-22) ----------
+   The statistics screen was one scroll of 17 blocks (~6200 px on a phone). Nothing is removed; it is now three short
+   sections picked from a row under the period switch, plus one new card that compares this period with the one before:
+     sum  «الملخص»   hero, highlights, the new comparison, consistency score, averages, records
+     prog «التقدّم»  trend curve, weekdays, day results, day map, calendar
+     ana  «التحليل»  smart analysis, delay anatomy, typical day, «كيف أفهمك», hour clock, where you fall behind
+   Works by tagging the blocks renderReports() already makes, so every card keeps its own code and updates. */
+var ST_SEC=[['sum','الملخص'],['prog','التقدّم'],['ana','التحليل']];
+var ST_MAP={'منحنى الإنجاز':'prog','أيام الأسبوع':'prog','نتيجة الأيام':'prog','خريطة الأيام':'prog','تقويم الوِرد':'prog',
+  'التحليل الذكي':'ana','تشريح التأخير':'ana','يومك النموذجي':'ana','كيف أفهمك':'ana','ساعة الإنجاز':'ana','أين تتأخّر؟':'ana'};
+function stCmpCard(){var N=V.range,ks=rangeKeys(N),pv=rangeKeys(N,N),A=stats(ks,'all'),Ap=stats(pv,'all');
+  var now={7:'هذا الأسبوع',30:'هذا الشهر',90:'آخر ٣ أشهر',365:'هذه السنة'}[N]||'الفترة الحالية',was={7:'الأسبوع الماضي',30:'الشهر الماضي',90:'الأشهر الثلاثة قبلها',365:'السنة الماضية'}[N]||'الفترة السابقة';
+  function row(t,a,b,ta,tb,col){var mx=Math.max(a,b,1e-9);
+    return '<div class="st-row" style="--sc:'+col+'"><div class="between"><b>'+t+'</b>'+delta(a,b)+'</div>'
+      +'<div class="st-bar"><span>'+now+'</span><i><em style="width:'+(a/mx*100).toFixed(1)+'%"></em></i><b class="num">'+ta+'</b></div>'
+      +'<div class="st-bar was"><span>'+was+'</span><i><em style="width:'+(b/mx*100).toFixed(1)+'%"></em></i><b class="num">'+tb+'</b></div></div>';}
+  var h='<section class="card st-cmp"><h3 class="h">مقارنة بالفترة السابقة</h3>';
+  h+=row('أيام مكتملة',A.met,Ap.met,fmt(A.met),fmt(Ap.met),'var(--gold)');
+  onCats().forEach(function(c){var a=stats(ks,c).sum,b=stats(pv,c).sum,f=function(v){return c==='pages'?fmtDur(v):fmt(Math.round(v));};
+    h+=row(esc(CF(c).label),a,b,f(a),f(b),'var(--c-'+c+',var(--accent))');});
+  return h+'</section>';}
+function stSecApply(){var v=$('#v-reports');if(!v||!v.firstElementChild)return;
+  if(!ST_SEC.some(function(s){return s[0]===V.rsec;}))V.rsec='sum';
+  var seg=v.querySelector(':scope>.seg');if(!seg)return;
+  if(!v.querySelector(':scope>.st-sec')){
+    seg.insertAdjacentHTML('afterend','<div class="st-sec" role="tablist" aria-label="أقسام الإحصائيات">'+ST_SEC.map(function(s){return '<button type="button" role="tab" data-rsec="'+s[0]+'">'+s[1]+'</button>';}).join('')+'</div>');
+    var hl=v.querySelector(':scope>.hl')||v.querySelector(':scope>#story');if(hl)hl.insertAdjacentHTML('afterend',stCmpCard());}
+  [].forEach.call(v.children,function(x){if(x.classList.contains('ptitle')||x.classList.contains('seg')||x.classList.contains('st-sec'))return;
+    var t=x.querySelector('h3,.h'),k=t?t.textContent.trim():'';x.setAttribute('data-sec',ST_MAP[k]||'sum');});
+  v.setAttribute('data-sec',V.rsec);
+  [].forEach.call(v.querySelectorAll(':scope>.st-sec>button'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-rsec')===V.rsec);});}
+(function(){var rr=renderReports;
+  renderReports=function(){var go=V.goTo;rr.apply(this,arguments);
+    if(go){var t=document.getElementById(go);if(t){var k=(t.querySelector('h3,.h')||t).textContent.trim();V.rsec=ST_MAP[k]||'sum';}}
+    stSecApply();};
+  document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-rsec]');
+    if(b){V.rsec=b.getAttribute('data-rsec');stSecApply();try{buzz(8);}catch(e){}window.scrollTo(0,0);return;}
+    if(V.tab==='reports'&&ev.target.closest&&ev.target.closest('#v-reports'))setTimeout(stSecApply,0);});})();
+
+
 refresh();
 window.__wird={get V(){return V;},get ST(){return ST;},T:T,tot:tot,todayKey:todayKey,addDays:addDays};
 })();
