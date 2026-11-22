@@ -1538,6 +1538,20 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 .st-bar.was{color:var(--muted)}
 .st-bar.was em{opacity:.42}
 .st-bar.was b{color:var(--ink2);font-weight:600}
+/* 43 «خريطة السنة» */
+.yr-g{display:grid;gap:4px;margin:12px 0 6px}
+.yr-m{display:grid;grid-template-columns:3.6em 1fr;align-items:center;gap:6px}
+.yr-m span{font-size:.72rem;color:var(--muted);white-space:nowrap}
+.yr-d{display:grid;grid-template-columns:repeat(31,1fr);gap:2px}
+.yr-d i{display:block;aspect-ratio:1;border-radius:2px;background:var(--track)}
+.yr-d i.x{background:none}
+.yr-d i.fut,.yr-d i.pre{opacity:.35}
+.yr-d i.rest{background:color-mix(in srgb,var(--gold) 30%,var(--track))}
+.yr-d i[data-l="1"]{background:color-mix(in srgb,var(--accent) 28%,var(--track))}
+.yr-d i[data-l="2"]{background:color-mix(in srgb,var(--accent) 52%,var(--track))}
+.yr-d i[data-l="3"]{background:color-mix(in srgb,var(--accent) 78%,var(--track))}
+.yr-d i[data-l="4"]{background:var(--accent2)}
+.yr-d i[data-t]{outline:1.5px solid var(--gold);outline-offset:1px}
 </style>
 <style id="owner1122">/* owner 2026-11-22 (second round): no status icon above the dial; the «مسار … اليوم» card opens the catch-up road when late */
 .ly-state.ly-cub{display:none!important}
@@ -1556,6 +1570,45 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 :root[data-risk="late"]:not([data-theme="dark"]) body{background-color:#fbe9ea}
 :root[data-risk="late"] #v-today .ly-go{background:linear-gradient(120deg,#FF8A7A 0%,#F0444B 55%,#C21E2C 100%)!important;color:#fff!important;box-shadow:0 14px 34px -14px rgba(240,68,75,.85)!important}
 @media (prefers-reduced-motion:reduce){#riskTint{transition:none}}
+/* 32: red by degree (1 = a little behind → orange, 3 = far behind → deep red) */
+:root[data-rl="1"] #riskTint{background:radial-gradient(130% 90% at 50% 0%,#ff9a3c 0%,#e2612a 55%,#7a2a0e 100%);opacity:.62}
+:root[data-rl="1"]{--accent:#F08A3C;--accent2:#D9692A;--accent-soft:rgba(240,138,60,.16);--late:#F08A3C}
+:root[data-rl="1"] #v-today .ly-go{background:linear-gradient(120deg,#FFC08A 0%,#F08A3C 55%,#C9561E 100%)!important}
+:root[data-rl="2"] #riskTint{background:radial-gradient(130% 90% at 50% 0%,#ff5a3a 0%,#d22a24 55%,#701010 100%);opacity:.74}
+:root[data-rl="3"] #riskTint{opacity:.9}
+/* 34: the sky brightens with progress; 33: a quiet golden light once the goal is reached */
+#progLight,#doneTint{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity 1.2s ease}
+#progLight{background:radial-gradient(120% 70% at 50% 8%,#fff6dc 0%,rgba(255,246,220,.35) 40%,transparent 75%);mix-blend-mode:soft-light;opacity:calc(var(--prog,0)*.85)}
+:root[data-risk="late"] #progLight{opacity:0}
+#doneTint{opacity:0;background:radial-gradient(120% 80% at 50% 0%,rgba(255,214,120,.55) 0%,rgba(255,196,90,.18) 45%,transparent 80%);mix-blend-mode:screen}
+:root[data-glow="done"] #doneTint{opacity:.7}
+:root[data-glow="done"]{--accent:var(--gold);--accent-soft:color-mix(in srgb,var(--gold) 18%,transparent)}
+:root[data-glow="done"] #v-today .ly-go{box-shadow:0 0 0 1px rgba(255,214,120,.5),0 14px 40px -12px rgba(255,200,90,.8)!important}
+/* 36: «الليلة المقمرة» — stars always out, a brighter silver moon, shimmering water */
+:root[data-skin="moon"] #scene .star{opacity:.85}
+:root[data-skin="moon"] #scene .sunorb{opacity:.95}
+:root[data-skin="moon"] #scene circle[r="20"]{opacity:1;filter:drop-shadow(0 0 10px rgba(235,242,255,.9))}
+:root[data-skin="moon"] #scene .ripple{opacity:.9;stroke:#DDE6FF!important;animation:mnsh 5s ease-in-out infinite}
+@keyframes mnsh{0%,100%{opacity:.35}50%{opacity:.95}}
+/* 37: «الفجر» — the horizon glow breathes slowly and the sun rises a little */
+:root[data-skin="dawn"] #scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(255,150,140,.55) 62%,rgba(255,200,150,.35) 72%,transparent 90%);animation:dwn 18s ease-in-out infinite alternate;pointer-events:none}
+@keyframes dwn{from{opacity:.15}to{opacity:.85}}
+:root[data-skin="dawn"] #scene circle[r="20"],:root[data-skin="dawn"] #scene .sunorb{animation:dws 30s ease-in-out infinite alternate}
+@keyframes dws{from{transform:translateY(26px)}to{transform:translateY(-18px)}}
+/* 47: a one-second splash when the app opens (pure CSS, never blocks taps) */
+#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 30%,#1b2450 0%,#0a0f26 60%,#05070f 100%);color:#F4EBD3;animation:spo .5s ease 1.1s forwards}
+#splash svg{width:112px;height:112px;overflow:visible}
+#splash .sp-r{fill:none;stroke:#E6C27A;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:327;animation:spd 1s ease forwards;transform:rotate(-90deg);transform-origin:60px 60px}
+#splash .sp-m{fill:#F3D9A0;filter:drop-shadow(0 0 12px rgba(243,217,160,.7));opacity:0;animation:spf .6s ease .25s forwards}
+#splash b{color:#F4EBD3;font:700 2.4rem var(--f-disp);letter-spacing:.02em;opacity:0;animation:spf .6s ease .35s forwards}
+#splash small{font:500 .95rem var(--f-body);color:#C9BFA6;opacity:0;animation:spf .6s ease .5s forwards}
+@keyframes spd{to{stroke-dashoffset:0}}
+@keyframes spf{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes spo{to{opacity:0;visibility:hidden}}
+@media (prefers-reduced-motion:reduce){#splash{animation-delay:.4s}#splash *{animation-duration:.01s!important;animation-delay:0s!important}
+  :root[data-skin="dawn"] #scene::after,:root[data-skin="dawn"] #scene circle[r="20"],:root[data-skin="dawn"] #scene .sunorb,:root[data-skin="moon"] #scene .ripple{animation:none!important}}
+:root[data-motion="off"][data-skin="dawn"] #scene::after,:root[data-motion="off"] #scene .ripple,:root[data-motion="off"] #scene .sunorb,:root[data-motion="off"] #scene circle[r="20"]{animation:none!important}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1566,9 +1619,10 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 22/11 20:05";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 22/11 20:33";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="sp-r" cx="60" cy="60" r="52"/><path class="sp-m" d="M72 30a32 32 0 1 0 18 52a26 26 0 1 1-18-52z"/></svg><b>وِرد</b><small>قرآن وذكر كل يوم</small></div>
 
 <div id="scene" aria-hidden="true">
   <svg viewBox="0 0 400 860" preserveAspectRatio="xMidYMid slice">
@@ -1832,7 +1886,7 @@ var SKINS={
    D:['#140F04','#241A08','#3A2C12','#FFE29A','#4A3A18','#382C12','#1A1406','#30260E','#FBF3E0','#E2D2AC','#B0A07C','#F2C14E','#DDA82E','rgba(242,193,78,.16)','rgba(255,255,255,.1)','#F7D474','#9ED69A','#F2C14E'],g:'36,28,10',g2:'46,36,14'}
 };
 SKINS=Object.assign({layl:{n:'سماء الليل',d:'بنفسجي ليلي بزجاج ونجوم ومجرّة',L:['#0B0D2E','#16184C','#2B2A6E','#E8DAFF','#2A2466','#211D58','#1B1A52','#262468','#F3F0FF','#CBC5F0','#9C95CC','#A99CFF','#8C78F0','rgba(169,156,255,.18)','rgba(255,255,255,.1)','#F2CF7A','#7FE0E8','#B3A6FF'],D:['#0B0D2E','#16184C','#2B2A6E','#E8DAFF','#2A2466','#211D58','#1B1A52','#262468','#F3F0FF','#CBC5F0','#9C95CC','#A99CFF','#8C78F0','rgba(169,156,255,.18)','rgba(255,255,255,.1)','#F2CF7A','#7FE0E8','#B3A6FF'],g:'30,30,84',g2:'36,34,96'},laylm:{n:'ليلة المطر',d:'فيروزي ليلي بمطر وبحيرة وقمر',L:['#061521','#0C2536','#143A4E','#DDEFF5','#12303F','#0F2937','#0E2C3D','#163648','#EFF8FC','#BFD8E2','#8FAAB6','#6FD6F2','#3FB6DA','rgba(111,214,242,.18)','rgba(255,255,255,.1)','#F2CF7A','#7FE0C8','#6FD6F2'],D:['#061521','#0C2536','#143A4E','#DDEFF5','#12303F','#0F2937','#0E2C3D','#163648','#EFF8FC','#BFD8E2','#8FAAB6','#6FD6F2','#3FB6DA','rgba(111,214,242,.18)','rgba(255,255,255,.1)','#F2CF7A','#7FE0C8','#6FD6F2'],g:'12,37,54',g2:'16,46,66'},jannah:{n:'الجنة',d:'حديقة ليلية بشلال ومطر وقمر على الماء',L:['#041A1C','#08302F','#0F4A44','#E4F7EA','#0E3A36','#0B302D','#0A3431','#124540','#F0FBF5','#C2E2D4','#8FB5A5','#6FE0B0','#3DBE8C','rgba(111,224,176,.18)','rgba(255,255,255,.1)','#F2CF7A','#8FE8C0','#6FE0B0'],D:['#041A1C','#08302F','#0F4A44','#E4F7EA','#0E3A36','#0B302D','#0A3431','#124540','#F0FBF5','#C2E2D4','#8FB5A5','#6FE0B0','#3DBE8C','rgba(111,224,176,.18)','rgba(255,255,255,.1)','#F2CF7A','#8FE8C0','#6FE0B0'],g:'10,44,42',g2:'14,56,52'},jannahd:{n:'جنة النهار',d:'نهار مشمس بشلال وقوس قزح، يتفاعل مع اللمس',L:['#0B4C9C','#1F78CC','#58B4EA','#FFF3B0','#0A5488','#0C5E8E','#1182AC','#12708F','#F4FCFF','#D3EEF5','#A5CDD8','#7FE3C4','#2FB39A','rgba(127,227,196,.2)','rgba(255,255,255,.14)','#FFD766','#9BEBD0','#7FE3C4'],D:['#0B4C9C','#1F78CC','#58B4EA','#FFF3B0','#0A5488','#0C5E8E','#1182AC','#12708F','#F4FCFF','#D3EEF5','#A5CDD8','#7FE3C4','#2FB39A','rgba(127,227,196,.2)','rgba(255,255,255,.14)','#FFD766','#9BEBD0','#7FE3C4'],g:'5,62,88',g2:'8,76,104'},kusuf:{n:'الكسوف',d:'هالة ضوء وشفق وبلّورات فوق مرآة سوداء',L:['#010207','#05061A','#0C0B2E','#F3ECFF','#090920','#070718','#0A0A24','#17123E','#F6FBFF','#CFE6E6','#9AA6C2','#8EF0E0','#8FB4FF','rgba(142,240,224,.16)','rgba(255,255,255,.1)','#F2CF7A','#C9A2FF','#8EF0E0'],D:['#010207','#05061A','#0C0B2E','#F3ECFF','#090920','#070718','#0A0A24','#17123E','#F6FBFF','#CFE6E6','#9AA6C2','#8EF0E0','#8FB4FF','rgba(142,240,224,.16)','rgba(255,255,255,.1)','#F2CF7A','#C9A2FF','#8EF0E0'],g:'7,7,24',g2:'12,11,46'}},SKINS);
-['leaves','wind','light','oasis','sunset','desert'].forEach(function(k){delete SKINS[k];}); var SKIN_BY_TIME=[['fajr','sky'],['dhuhr','ocean'],['asr','lilac'],['maghrib','ink'],['isha','royal']];
+['leaves','wind','light','oasis','sunset','desert'].forEach(function(k){delete SKINS[k];}); SKINS.moon={n:'الليلة المقمرة',d:'قمر مكتمل وضوء فضي على الماء',L:['#AEB9D6','#D8DEEE','#E8E6F0','#FFFFFF','#8D9BBE','#B5C0DA','#CBD3E8','#F2F4FA','#18223F','#48557A','#7C87A6','#4F6297','#3B4C7E','#DDE3F2','#DCE1EE','#B9974E','#3F8E9B','#4F6297'],D:['#03060F','#0A1530','#1C2C52','#F4F7FF','#16223F','#0F1A33','#071026','#131F3D','#EEF2FB','#BCC8E0','#8794B3','#C9D6F2','#A9BCE6','rgba(201,214,242,.16)','rgba(255,255,255,.1)','#E9D9A6','#9FD6E0','#C9D6F2'],g:'10,18,40',g2:'14,24,52'};SKINS.dawn={n:'الفجر',d:'سماء تتدرّج من الليل إلى الوردي',L:['#9FB3E6','#F2C3CF','#FFDDB8','#FFB27A','#C49AAE','#DDB9C6','#F3D5D8','#FFF3F0','#3A1F35','#6E4D63','#9A8093','#D9677A','#B84C62','#F9DDE2','#F1DEE2','#C98A3C','#3F928B','#D9677A'],D:['#0D1336','#3A2F6E','#E08A8A','#FFC48A','#3A2A55','#2C2248','#1E1A44','#2A2456','#FFF1EE','#E3C6CC','#A898B4','#FF9E8A','#F07F72','rgba(255,158,138,.16)','rgba(255,255,255,.1)','#FFD08A','#8FD3D8','#FF9E8A'],g:'24,20,60',g2:'32,26,74'}; var SKIN_BY_TIME=[['fajr','sky'],['dhuhr','ocean'],['asr','lilac'],['maghrib','ink'],['isha','royal']];
 function skinNow(){var s=S().skin||'sky';if(s!=='flow')return SKINS[s]?s:'sky';var n=nowMin(),t=S().times,pick='royal';
   if(n<mm(t.fajr))return 'royal';SKIN_BY_TIME.forEach(function(x){if(n>=mm(t[x[0]]))pick=x[1];});return pick;}
 function skinCSS(){var out='';Object.keys(SKINS).forEach(function(id){if(id==='sky')return;var k=SKINS[id];
@@ -3230,7 +3284,7 @@ var LYTINTS={"laylm": {"#171A4A": "#182E35", "#3A3A86": "#3E7082", "#8B6CF0": "#
 var lastDay=todayKey();
 setInterval(function(){var t=todayKey();if(t!==lastDay){lastDay=t;V.sess.day=null;}if(!V.sheet&&V.tab==='today'&&!(document.activeElement&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)))refresh();else applyTheme();},60000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden){refresh();if(V.sheet)renderSheet();}});
-(function(){var sp=document.createElement('div');sp.id='splash';sp.setAttribute('aria-hidden','true');sp.innerHTML='<b>وِرد</b>';document.body.appendChild(sp);setTimeout(function(){sp.remove();},1500);})();
+
 if(!ST.meta.lylInit){ST.meta.lylInit=1;ST.meta.lylPrev=ST.s.skin||'sky';ST.s.skin='layl';save();}
 (function(d){if(d&&d.short&&d.short.indexOf(33)>=0){d.short=[100,500,1000,2000];save();}})(ST.s.cats&&ST.s.cats.dhikr);
 setTimeout(function(){if(cuGet())cuOpen();},0);
@@ -3251,6 +3305,23 @@ function riskUp(){var late=false;try{var j=jInfo(homeMode());late=j.st==='late'&
   var rf=refresh;refresh=function(){rf.apply(this,arguments);riskUp();};
   setInterval(riskUp,30000);
   document.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var b=ev.target;if(b&&b.id==='jrBox'&&b.dataset.act){ev.preventDefault();b.click();}});})();
+/* ---------- owner picks from the 50 ideas (2026-11-22) ----------
+   32 red by degree: orange when a little behind, deeper red the further behind (data-rl 1..3)
+   33 after the day's goal is reached, a quiet golden light for the rest of the day (data-glow="done")
+   34 the sky brightens as you near the goal (--prog 0..1 drives #progLight)
+   36 «الليلة المقمرة» is always a night theme */
+(function(){var old=riskUp;
+  riskUp=function(){var j=null;try{j=jInfo(homeMode());}catch(e){}
+    var late=!!(j&&j.st==='late'&&j.ex>j.v),done=!!(j&&j.st==='done'),r=late?(j.ex-j.v)/Math.max(1,j.G):0,lv=late?(r<.08?1:r<.2?2:3):0,p=j?Math.max(0,Math.min(1,j.v/Math.max(1,j.G))):0;
+    if(late)root.setAttribute('data-risk','late');else root.removeAttribute('data-risk');
+    if(lv)root.setAttribute('data-rl',lv);else root.removeAttribute('data-rl');
+    if(done)root.setAttribute('data-glow','done');else root.removeAttribute('data-glow');
+    var ps=p.toFixed(2);if(root.style.getPropertyValue('--prog')!==ps)root.style.setProperty('--prog',ps);};
+  if(!document.getElementById('progLight'))document.body.insertAdjacentHTML('beforeend','<div id="progLight" aria-hidden="true"></div><div id="doneTint" aria-hidden="true"></div>');
+  setInterval(function(){try{riskUp();}catch(e){}},15000);
+  var at=applyTheme;applyTheme=function(){at.apply(this,arguments);try{if(skinNow()==='moon')root.setAttribute('data-theme','dark');}catch(e){}};
+  try{applyTheme();}catch(e){}
+  setTimeout(function(){var s=document.getElementById('splash');if(s)s.remove();},2200);})();
 
 
 /* ---------- «طور الاحصائيات» (owner 2026-11-22) ----------
@@ -3261,7 +3332,7 @@ function riskUp(){var late=false;try{var j=jInfo(homeMode());late=j.st==='late'&
      ana  «التحليل»  smart analysis, delay anatomy, typical day, «كيف أفهمك», hour clock, where you fall behind
    Works by tagging the blocks renderReports() already makes, so every card keeps its own code and updates. */
 var ST_SEC=[['sum','الملخص'],['prog','التقدّم'],['ana','التحليل']];
-var ST_MAP={'منحنى الإنجاز':'prog','أيام الأسبوع':'prog','نتيجة الأيام':'prog','خريطة الأيام':'prog','تقويم الوِرد':'prog',
+var ST_MAP={'خريطة السنة':'prog','منحنى الإنجاز':'prog','أيام الأسبوع':'prog','نتيجة الأيام':'prog','خريطة الأيام':'prog','تقويم الوِرد':'prog',
   'التحليل الذكي':'ana','تشريح التأخير':'ana','يومك النموذجي':'ana','كيف أفهمك':'ana','ساعة الإنجاز':'ana','أين تتأخّر؟':'ana'};
 function stCmpCard(){var N=V.range,ks=rangeKeys(N),pv=rangeKeys(N,N),A=stats(ks,'all'),Ap=stats(pv,'all');
   var now={7:'هذا الأسبوع',30:'هذا الشهر',90:'آخر ٣ أشهر',365:'هذه السنة'}[N]||'الفترة الحالية',was={7:'الأسبوع الماضي',30:'الشهر الماضي',90:'الأشهر الثلاثة قبلها',365:'السنة الماضية'}[N]||'الفترة السابقة';
@@ -3285,12 +3356,27 @@ function stSecApply(){var v=$('#v-reports');if(!v||!v.firstElementChild)return;
   v.setAttribute('data-sec',V.rsec);
   [].forEach.call(v.querySelectorAll(':scope>.st-sec>button'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-rsec')===V.rsec);});}
 (function(){var rr=renderReports;
-  renderReports=function(){var go=V.goTo;rr.apply(this,arguments);
+  renderReports=function(){var go=V.goTo;rr.apply(this,arguments);yearAdd();
     if(go){var t=document.getElementById(go);if(t){var k=(t.querySelector('h3,.h')||t).textContent.trim();V.rsec=ST_MAP[k]||'sum';}}
     stSecApply();};
   document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-rsec]');
     if(b){V.rsec=b.getAttribute('data-rsec');stSecApply();try{buzz(8);}catch(e){}window.scrollTo(0,0);return;}
     if(V.tab==='reports'&&ev.target.closest&&ev.target.closest('#v-reports'))setTimeout(stSecApply,0);});})();
+
+/* 43 «خريطة السنة» (owner pick 2026-11-22): the last 12 months on one screen, a row per month and a square per day,
+   coloured by how much of the day's goals was done (the same scale as «خريطة الأيام»). */
+var YM=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+function yearCard(){var t=todayKey(),f=firstKey(),d=dateOf(t),y=d.getFullYear(),m=d.getMonth(),h='',done=0,days=0;
+  for(var i=11;i>=0;i--){var mm=m-i,yy=y;while(mm<0){mm+=12;yy--;}var n=new Date(yy,mm+1,0).getDate(),row='';
+    for(var dd=1;dd<=31;dd++){if(dd>n){row+='<i class="x"></i>';continue;}
+      var k=yy+'-'+(mm<9?'0':'')+(mm+1)+'-'+(dd<10?'0':'')+dd,l=0,c='';
+      if(k>t)c='fut';else if(k<f)c='pre';else if(isRest(k))c='rest';else{var p=pctDay(k);l=p>=1?4:p>=.7?3:p>=.4?2:p>0?1:0;days++;if(p>=1)done++;}
+      row+='<i'+(c?' class="'+c+'"':'')+(k===t?' data-t="1"':'')+' data-l="'+l+'" title="'+esc(fmtDate(k))+'"></i>';}
+    h+='<div class="yr-m"><span>'+YM[mm]+'</span><div class="yr-d">'+row+'</div></div>';}
+  return '<section class="card yr"><div class="between"><h3 class="h">خريطة السنة</h3><small class="sub num">'+fmt(done)+' يومًا مكتملًا من '+fmt(days)+'</small></div><div class="yr-g">'+h+'</div><div class="hm-leg"><span>أقل</span>'+[0,1,2,3,4].map(function(l){return '<i data-l="'+l+'"></i>';}).join('')+'<span>اكتمل</span></div></section>';}
+function yearAdd(){var v=$('#v-reports');if(!v||v.querySelector('.yr'))return;var hs=[].slice.call(v.querySelectorAll(':scope>section'));
+  var at=hs.filter(function(x){var t=x.querySelector('h3');return t&&t.textContent.trim()==='خريطة الأيام';})[0];
+  try{var html=yearCard();if(at)at.insertAdjacentHTML('beforebegin',html);else v.insertAdjacentHTML('beforeend',html);}catch(e){}}
 
 
 refresh();
