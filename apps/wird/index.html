@@ -1521,7 +1521,7 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #scene,#amb,#lylSky{contain:strict;transform:translateZ(0)}
 .view.enter>*{animation-duration:.4s}
 </style>
-<style id="st1122">/* statistics in three short sections + the comparison card (owner 2026-11-22: «طور الاحصائيات») */
+<style id="stats1122">/* statistics in three short sections + the comparison card (owner 2026-11-22: «طور الاحصائيات») */
 .st-sec{display:flex;gap:8px;margin:12px 0 2px}
 .st-sec button{flex:1;min-height:44px;border-radius:999px;border:1px solid var(--rim);background:var(--glass2);color:var(--ink2);font:600 .92rem var(--f-body)}
 .st-sec button[aria-selected="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
@@ -1539,6 +1539,25 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 .st-bar.was em{opacity:.42}
 .st-bar.was b{color:var(--ink2);font-weight:600}
 </style>
+<style id="owner1122">/* owner 2026-11-22: the status is a small round button at the corner of the dial, opposite the focus button, not a wide
+   card above it: gold flag = «عوّض الآن», green check = on track, quiet icon = rest day / before dawn.
+   The element stays where the card was (right before the dial) with no height, so lyStateUp() keeps working. */
+.ly-state.ly-cub{display:block;position:relative;height:0;margin:0!important;padding:0;border:0!important;background:none!important;box-shadow:none!important;overflow:visible;z-index:4}
+.ly-state.ly-cub::before{content:none}
+.ly-cubtn{position:absolute;top:22px;inset-inline-start:calc(50% - min(145px,39vw) - 4px);width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;
+  color:#2a1a00;background:linear-gradient(145deg,#FFE9AE,#F2B84B);box-shadow:0 6px 16px -6px rgba(242,184,75,.85),inset 0 1px 0 rgba(255,255,255,.55)}
+.ly-cubtn svg{width:20px;height:20px}
+.ly-cubtn:active{transform:scale(.94)}
+.ly-cubtn.k-late::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid #F2CF7A;opacity:0;animation:lycub 2.6s ease-out infinite;pointer-events:none}
+@keyframes lycub{0%{transform:scale(.86);opacity:.75}70%,100%{transform:scale(1.28);opacity:0}}
+:root:not([data-look="layl"]) .ly-cubtn{inset-inline-start:auto;inset-inline-end:calc(50% - min(35vw,140px) - 8px);top:31px;width:40px;height:40px}
+:root:not([data-look="layl"]) .ly-cubtn svg{width:18px;height:18px}
+.ly-cubtn.k-ok,.ly-cubtn.k-done{color:#04351f;background:linear-gradient(145deg,#9BF0C2,#2FB87C);box-shadow:0 6px 16px -6px rgba(47,184,124,.8),inset 0 1px 0 rgba(255,255,255,.55)}
+.ly-cubtn.k-ok svg,.ly-cubtn.k-done svg{stroke-width:2.6}
+.ly-cubtn.k-rest{color:var(--ink2);background:var(--glass2,rgba(255,255,255,.08));border:1px solid var(--rim);box-shadow:none}
+@media (prefers-reduced-motion:reduce){.ly-cubtn.k-late::after{animation:none}}
+:root[data-motion="off"] .ly-cubtn.k-late::after{animation:none}
+</style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1548,7 +1567,7 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 22/11 15:21";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 22/11 16:55";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 
@@ -3074,6 +3093,8 @@ function lyState(c){var j=jInfo(c),pg=c==='pages',n=j.n,big,sub,ic,cls=j.st,btn=
   else if(j.st==='done'){cls='done';ic=I.star;big='اكتمل هدف اليوم';sub=j.v>j.G?'زيادة '+(pg?fmtDur(j.v-j.G):fmt(j.v-j.G)+' '+esc(j.u))+'، ما شاء الله':'ما شاء الله، تقبّل الله منك';}
   else if(j.st==='rest'){cls='rest';ic=I.rest;big='يوم راحة';sub='لا يُحسب التأخير اليوم ولا تنقطع سلسلتك';}
   else{cls='rest';ic=MI.moonc;big='المسار يبدأ مع الفجر';sub='يبدأ الحساب عند '+fmtClock(j.cp[0].m);}
+  if(j.st==='late')return '<div class="ly-state s-late ly-cub" id="lyState"><button type="button" class="ly-cubtn k-late" data-act="cu-start" data-c="'+c+'" data-n="'+(j.ex-j.v)+'" aria-label="عوّض الآن، '+big+'" title="عوّض الآن">'+CUI+'</button></div>';
+  return '<div class="ly-state s-'+cls+' ly-cub" id="lyState"><button type="button" class="ly-cubtn k-'+cls+'" data-lytip="'+esc(big+(sub?' · '+sub:''))+'" aria-label="'+esc(big)+'">'+(cls==='ok'||cls==='done'?I.check:ic)+'</button></div>';
   return '<section class="'+(LYL()?'ly-card':'card')+' ly-state s-'+cls+'" id="lyState" role="status"><i class="ly-si">'+ic+'</i><div class="ly-sx"><b>'+big+'</b><small>'+sub+'</small></div>'+btn+'</section>';}
 function lyOk(){var s=$('#lyState'),v=$('#v-today');if(!v)return;var ok=!!(s&&(s.classList.contains('s-ok')||s.classList.contains('s-done')));v.classList.toggle('ly-ok',ok);v.classList.toggle('ly-late',!!(s&&s.classList.contains('s-late')));}
 function lyStateUp(){var s=$('#lyState');if(!s)return;var c=homeMode(),h=lyTint(lyState(c));if(s.outerHTML!==h){s.outerHTML=h;lyOk();}}
@@ -3221,6 +3242,11 @@ if(!ST.meta.jadInit){ST.meta.jadInit=1;ST.s.skin='jannahd';save();}
 if(!ST.meta.kusInit){ST.meta.kusInit=1;ST.s.skin='kusuf';save();}
 if(ST.s.skin==='mihrab'){ST.s.skin='kusuf';save();}
 if(!ST.meta.pgInit){ST.meta.pgInit=1;syncGoal('pages');save();} (function(){var g={leaves:'galaxy',wind:'galaxy',light:'galaxy',oasis:'sky',sunset:'sky',desert:'sky'},ch=0;var pc=ST.s.cats&&ST.s.cats.pages;if(pc&&pc.pg!==false){CF('pages');ch=1;}if(g[ST.s.skin]){ST.s.skin=g[ST.s.skin];ch=1;}if(ST.meta&&g[ST.meta.lylPrev]){ST.meta.lylPrev=g[ST.meta.lylPrev];ch=1;}if(ch)save();})();
+/* the round status button at the dial (owner 2026-11-22): when it is not «عوّض الآن», a tap says the status line */
+document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-lytip]');if(!b)return;
+  try{buzz(8);}catch(e){}toast(b.getAttribute('data-lytip'),{gold:true});});
+
+
 /* ---------- «طور الاحصائيات» (owner 2026-11-22) ----------
    The statistics screen was one scroll of 17 blocks (~6200 px on a phone). Nothing is removed; it is now three short
    sections picked from a row under the period switch, plus one new card that compares this period with the one before:
