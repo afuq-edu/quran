@@ -1521,6 +1521,22 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #scene,#amb,#lylSky{contain:strict;transform:translateZ(0)}
 .view.enter>*{animation-duration:.4s}
 </style>
+<style id="talwin1126">/* «ألوان الإنجاز» (owner 2026-11-26) — the picture is drawn by talwin1126.js inside #scene */
+:root[data-skin="talwin"] #scene>svg:not(#twSvg){display:none}
+:root[data-skin="talwin"] #scene{background:#E9EEF0}
+:root[data-skin="talwin"] body{background:#E9EEF0}
+:root[data-skin="talwin"] #scene::after{display:none}
+:root[data-skin="talwin"] #progLight,:root[data-skin="talwin"] #doneTint{display:none}
+#twSvg{position:absolute;inset:0;width:100%;height:100%}
+#twSvg path,#twSvg rect,#twSvg circle,#twSvg stop{transition:fill 1.2s ease,stroke 1.2s ease,stop-color 1.2s ease,opacity 1.2s ease}
+#twWx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#twSvg .tw-ring{transform-box:fill-box;transform-origin:center;animation:twRing 1.2s ease-out forwards}
+@keyframes twRing{from{transform:scale(.4);opacity:1}to{transform:scale(3.2);opacity:0}}
+#twSvg .tw-beads circle.tw-on,#twSvg .tw-flowers path.tw-on{transform-box:fill-box;transform-origin:center;animation:twPop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes twPop{from{transform:scale(.3)}to{transform:scale(1)}}
+:root[data-motion="off"] #twSvg *{transition:none!important;animation:none!important}
+@media (prefers-reduced-motion:reduce){#twSvg *{transition:none!important;animation:none!important}}
+</style>
 <style id="full1126">/* blocks added from the owner's ten dashboard mockups (2026-11-26); see full1126.js */
 #v-reports>.fx{font-family:"Tajawal",system-ui,sans-serif;color:var(--d-hd)}
 #v-reports>.fx h3{font-family:inherit}
@@ -2022,7 +2038,7 @@ html.rp-on,html.rp-on body{overflow:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 26/11 16:16";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 27/11 00:20";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="sp-r" cx="60" cy="60" r="52"/><path class="sp-m" d="M72 30a32 32 0 1 0 18 52a26 26 0 1 1-18-52z"/></svg><b>وِرد</b><small>قرآن وذكر كل يوم</small></div>
@@ -2315,7 +2331,7 @@ function fxPrev(id,dark,c){var s='',R2=rnd(hashStr(id)),i;
   return s;}
 function renderThemes(){var s=S(),dark=root.getAttribute('data-theme')==='dark',cur=(s.skin==='flow'||SKINS[s.skin])?s.skin:'sky';
   var h='<div class="ptitle"><div><h1>المظاهر والثيمات</h1><p>اختر الألوان والخلفية والخط كما تحب</p></div><button class="round-btn" data-act="tab" data-v="settings" aria-label="رجوع">'+I.prev+'</button></div>';
-  h+='<section class="card th-all"><div class="between"><h3 class="h">الثيمات</h3><span class="chip gold">'+esc(cur==='flow'?'متغيّر مع اليوم':SKINS[cur].n)+'</span></div><div class="skins">';h+=[['kusuf','هالة ضوء وشفق وبلّورات طافية'],['jannahd','نهار مشمس يتفاعل مع لمستك: ماء وزهور وطيور وفراشات'],['jannah','حديقة وشلال وقمر على الماء ومطر'],['layl','بنفسجي بنجوم ومجرّة'],['laylm','فيروزي بمطر وبحيرة وقمر']].filter(function(o){return SKINS[o[0]];}).map(function(o){return '<button class="skin" data-act="skin" data-v="'+o[0]+'" aria-pressed="'+(cur===o[0])+'">'+skinPrev(o[0],true)+'<span><b>'+SKINS[o[0]].n+'</b><small>'+o[1]+'</small></span><i class="ok">'+I.check+'</i></button>';}).join('');h+=Object.keys(SKINS).filter(function(id){return !LYS[id];}).sort(function(a,b){return (SKINS[b].fx?1:0)-(SKINS[a].fx?1:0);}).map(function(id){var k=SKINS[id];return '<button class="skin" data-act="skin" data-v="'+id+'" aria-pressed="'+(cur===id)+'">'+skinPrev(id,dark)+'<span><b>'+k.n+'</b><small>'+k.d+'</small></span><i class="ok">'+I.check+'</i></button>';}).join('');h+='<button class="skin flow" data-act="skin" data-v="flow" aria-pressed="'+(cur==='flow')+'"><span class="fl4">'+['sky','ocean','lilac','ink','royal'].map(function(id){return '<i style="background:linear-gradient(180deg,'+SKINS[id][dark?'D':'L'][0]+','+SKINS[id][dark?'D':'L'][11]+')"></i>';}).join('')+'</span><span><b>متغيّر مع اليوم</b><small>يتبدّل الثيم مع أوقات الصلوات</small></span><i class="ok">'+I.check+'</i></button>';h+='</div></section>';h+='<section class="card"><h3 class="h">الوقت</h3><div class="seg" style="margin-top:10px">'+[['auto','حسب الوقت',I.auto],['day','نهاري',I.sun],['night','ليلي',I.moon]].map(function(o){return '<button data-act="set" data-path="theme" data-val="'+o[0]+'" aria-pressed="'+(s.theme===o[0])+'">'+o[1]+'</button>';}).join('')+'</div><p class="note" style="margin:8px 0 0">«حسب الوقت»: نهاري من الفجر إلى المغرب، وليلي بعده.</p></section>';h+='<section class="card"><h3 class="h">التأثيرات الحيّة</h3><p class="note" style="margin:6px 0 0">للثيمات المتحرّكة: مطر، ثلج، المجرّة والنجوم.</p><div class="fld" style="margin-top:12px">شدّة التأثير'+seg('ambI',S().ambI||1,[[.6,'خفيف'],[1,'متوسط'],[1.6,'كثيف']])+'</div>'+sw('amb',S().amb!==false,'تشغيل التأثيرات الحيّة','أوقفها لتوفير البطارية')+sw('ambTouch',S().ambTouch!==false,'التفاعل مع اللمس')+'</section>';   h+='<section class="card"><h3 class="h">الخلفية</h3><div class="seg" style="margin-top:10px">'+[['full','المشهد كاملاً'],['soft','سماء فقط'],['none','سادة']].map(function(o){return '<button data-act="set" data-path="scene" data-val="'+o[0]+'" aria-pressed="'+((s.scene||'full')===o[0])+'">'+o[1]+'</button>';}).join('')+'</div>';
+  h+='<section class="card th-all"><div class="between"><h3 class="h">الثيمات</h3><span class="chip gold">'+esc(cur==='flow'?'متغيّر مع اليوم':SKINS[cur].n)+'</span></div><div class="skins">';h+=[['talwin','يبدأ رماديًّا ويتلوّن مع كل ٢٠ ذكرًا وكل دقيقة قراءة، والمطر والثلج والعاصفة تزيد مع إنجازك'],['kusuf','هالة ضوء وشفق وبلّورات طافية'],['jannahd','نهار مشمس يتفاعل مع لمستك: ماء وزهور وطيور وفراشات'],['jannah','حديقة وشلال وقمر على الماء ومطر'],['layl','بنفسجي بنجوم ومجرّة'],['laylm','فيروزي بمطر وبحيرة وقمر']].filter(function(o){return SKINS[o[0]];}).map(function(o){return '<button class="skin" data-act="skin" data-v="'+o[0]+'" aria-pressed="'+(cur===o[0])+'">'+skinPrev(o[0],true)+'<span><b>'+SKINS[o[0]].n+'</b><small>'+o[1]+'</small></span><i class="ok">'+I.check+'</i></button>';}).join('');h+=Object.keys(SKINS).filter(function(id){return !LYS[id]&&id!=='talwin';}).sort(function(a,b){return (SKINS[b].fx?1:0)-(SKINS[a].fx?1:0);}).map(function(id){var k=SKINS[id];return '<button class="skin" data-act="skin" data-v="'+id+'" aria-pressed="'+(cur===id)+'">'+skinPrev(id,dark)+'<span><b>'+k.n+'</b><small>'+k.d+'</small></span><i class="ok">'+I.check+'</i></button>';}).join('');h+='<button class="skin flow" data-act="skin" data-v="flow" aria-pressed="'+(cur==='flow')+'"><span class="fl4">'+['sky','ocean','lilac','ink','royal'].map(function(id){return '<i style="background:linear-gradient(180deg,'+SKINS[id][dark?'D':'L'][0]+','+SKINS[id][dark?'D':'L'][11]+')"></i>';}).join('')+'</span><span><b>متغيّر مع اليوم</b><small>يتبدّل الثيم مع أوقات الصلوات</small></span><i class="ok">'+I.check+'</i></button>';h+='</div></section>';h+='<section class="card"><h3 class="h">الوقت</h3><div class="seg" style="margin-top:10px">'+[['auto','حسب الوقت',I.auto],['day','نهاري',I.sun],['night','ليلي',I.moon]].map(function(o){return '<button data-act="set" data-path="theme" data-val="'+o[0]+'" aria-pressed="'+(s.theme===o[0])+'">'+o[1]+'</button>';}).join('')+'</div><p class="note" style="margin:8px 0 0">«حسب الوقت»: نهاري من الفجر إلى المغرب، وليلي بعده.</p></section>';h+='<section class="card"><h3 class="h">التأثيرات الحيّة</h3><p class="note" style="margin:6px 0 0">للثيمات المتحرّكة: مطر، ثلج، المجرّة والنجوم.</p><div class="fld" style="margin-top:12px">شدّة التأثير'+seg('ambI',S().ambI||1,[[.6,'خفيف'],[1,'متوسط'],[1.6,'كثيف']])+'</div>'+sw('amb',S().amb!==false,'تشغيل التأثيرات الحيّة','أوقفها لتوفير البطارية')+sw('ambTouch',S().ambTouch!==false,'التفاعل مع اللمس')+'</section>';   h+='<section class="card"><h3 class="h">الخلفية</h3><div class="seg" style="margin-top:10px">'+[['full','المشهد كاملاً'],['soft','سماء فقط'],['none','سادة']].map(function(o){return '<button data-act="set" data-path="scene" data-val="'+o[0]+'" aria-pressed="'+((s.scene||'full')===o[0])+'">'+o[1]+'</button>';}).join('')+'</div>';
   h+='<p class="lbl" style="margin-top:14px">البطاقات</p><div class="seg">'+[['glass','زجاجية'],['solid','صلبة']].map(function(o){return '<button data-act="set" data-path="cards" data-val="'+o[0]+'" aria-pressed="'+((s.cards||'glass')===o[0])+'">'+o[1]+'</button>';}).join('')+'</div>';
   h+='<p class="lbl" style="margin-top:14px">الزوايا</p><div class="seg">'+[['soft','ناعمة'],['round','دائرية'],['sharp','حادّة']].map(function(o){return '<button data-act="set" data-path="corners" data-val="'+o[0]+'" aria-pressed="'+((s.corners||'soft')===o[0])+'">'+o[1]+'</button>';}).join('')+'</div></section>';
   h+='<section class="card"><h3 class="h">الخط</h3><div class="fonts">'+[['plex','IBM Plex','وِردي اليومي ١٢٣'],['tajawal','تجوّل','وِردي اليومي ١٢٣'],['amiri','أميري','وِردي اليومي ١٢٣']].map(function(o){return '<button class="fontc f-'+o[0]+'" data-act="set" data-path="ffam" data-val="'+o[0]+'" aria-pressed="'+((s.ffam||'plex')===o[0])+'"><b>'+o[2]+'</b><small>'+o[1]+'</small></button>';}).join('')+'</div>';
@@ -3701,10 +3717,12 @@ if(!ST.meta.pgInit){ST.meta.pgInit=1;syncGoal('pages');save();} (function(){var 
    Sends today's numbers to the native widget (com.issa.wird.WirdWidget) through window.WirdNative.widget(json)
    after every save, when the app opens and when it goes to the background. Does nothing on the link (no WirdNative). */
 var WG={t:0,last:''};
-function wgData(){var k=todayKey(),o={day:k,st:streak(),done:metAll(k)};
+function wgData(){var k=todayKey(),o={day:k,st:streak(),done:metAll(k),ar:S().digits==='arab'};
   o.sty=(metAll(k)||isRest(k))?o.st:0;
   [['pages','q'],['dhikr','z']].forEach(function(a){var c=a[0];if(CATS.indexOf(c)<0||!CF(c).on)return;var v=tot(k,c),g=goal(k,c);
     o[a[1]]={n:CF(c).label||(c==='pages'?'القرآن':'الأذكار'),v:v,g:g,vt:uq(c,v),gt:uq(c,g),v0:uq(c,0)};});
+  /* the reading timer: the widget adds its minutes itself, minute by minute, while it runs (owner 2026-11-26) */
+  try{var t=T();if(o.q&&t&&(t.run||t.acc>0))o.q.live={run:!!t.run,acc:t.acc||0,start:t.start||0};}catch(e){}
   return JSON.stringify(o);}
 function wgSend(now){var N=window.WirdNative;if(!N||!N.widget)return;clearTimeout(WG.t);
   var go=function(){try{var j=wgData();if(j!==WG.last){WG.last=j;N.widget(j);}}catch(e){}};
@@ -4409,6 +4427,222 @@ function fxAdd(){var v=$('#v-reports');if(!v||!v.firstElementChild||V.tab!=='rep
 function fxPaint(){[].forEach.call(document.querySelectorAll('#v-reports .dsh *,#v-reports .fx *'),function(el){['fill','stroke','stop-color'].forEach(function(a){var v=el.getAttribute(a);if(v&&(v.indexOf('var(')===0||v.indexOf('color-mix(')===0)){el.style.setProperty(a,v);el.removeAttribute(a);}});});}
 (function(){var sa=stSecApply;stSecApply=function(){var r=sa.apply(this,arguments);try{[].forEach.call(document.querySelectorAll('#v-reports>.fx'),function(x){x.setAttribute('data-sec',x.getAttribute('data-fx'));});}catch(e){}return r;};
   var rr=renderReports;renderReports=function(){rr.apply(this,arguments);try{fxAdd();}catch(e){}try{fxPaint();}catch(e){}try{stSecApply();}catch(e){}};})();
+
+
+/* ---------- «ألوان الإنجاز» — a theme that colours itself with the day's work (owner 2026-11-26) ----------
+   «اريد ثيم يتلون حسب الانجاز اليومي … كل ٢٠ ذكر تلون شي وكل دقيقة تلون شي حتى يكتمل الهدف يكون لون كامل جميل
+    ويكون ثيم تفاعلي جميل والمطر والثلج والعواصف تزيد مع الانجاز»
+   The day starts as a grey, misty landscape. Every 20 dhikr colours one bead of the bead-string across the sky and pushes the
+   sky (sky, sun, clouds, birds, rainbow) towards colour; every minute of Quran reading (the running timer counts too) colours
+   one flower in the meadow and pushes the land (mountains, lake, hills, trees, meadow) towards colour. Goal met → the whole
+   picture is in full colour, with a rainbow. Weather on a canvas over the picture: rain grows with dhikr, snow with Quran,
+   wind + lightning (the storm) with the whole day. Touch the picture: a splash of colour, and a small bolt once the storm is on.
+   Colours are mixed in JS (grey → colour per element) only when the numbers change; the weather canvas runs at 30 fps,
+   only while this theme is shown and motion is on. A new day starts grey again. */
+(function(){
+  var ID='talwin',NS='http://www.w3.org/2000/svg';
+  SKINS[ID]={n:'ألوان الإنجاز',d:'يبدأ رماديًّا ويتلوّن مع كل ٢٠ ذكرًا وكل دقيقة قراءة، والمطر والثلج والعاصفة تزيد مع إنجازك',
+    L:['#CFE6F5','#EAF4F2','#FFF1DC','#FFD98A','#9DBFA8','#C4DCC8','#CDE7EC','#FBFDFC','#1F3A34','#4C665F','#7E918B','#2F9C8A','#23806F','#DDEFEA','#DCE8E4','#C79A45','#2F9C8A','#3F7FC4'],
+    D:null,g:'',g2:''};
+  SKINS[ID].D=SKINS[ID].L;
+  try{TH_MODE[ID]='light';}catch(e){}
+
+  /* ---------- the picture: [tag, attrs, colour, group, order]; group z = dhikr (sky), q = Quran (land) ---------- */
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function hx(c){c=c.replace('#','');return [parseInt(c.substr(0,2),16),parseInt(c.substr(2,2),16),parseInt(c.substr(4,2),16)];}
+  function mixC(c,a){var r=hx(c),L=.3*r[0]+.59*r[1]+.11*r[2],g=[L*.86+26-3,L*.86+26,L*.86+26+5];
+    a=Math.max(0,Math.min(1,a));a=a*a*(3-2*a);
+    return 'rgb('+Math.round(lerp(g[0],r[0],a))+','+Math.round(lerp(g[1],r[1],a))+','+Math.round(lerp(g[2],r[2],a))+')';}
+  var P=[];   /* parts: {el? , c, g, i} built with the svg */
+  function rnd(seed){var x=seed;return function(){x=(x*1103515245+12345)%2147483648;return x/2147483648;};}
+  function partsSVG(){
+    var o=[],defs=[],zi=0,qi=0;
+    function E(tag,at,c,g,ord){o.push({t:tag,a:at,c:c,g:g,i:ord});}
+    function grad(id,stops,g,ord,x2,y2){defs.push({id:id,stops:stops,g:g,i:ord,x2:x2||0,y2:y2==null?1:y2});}
+    /* sky — dhikr */
+    grad('twSky',[[0,'#5FA8E8'],[.55,'#A9D8F5'],[1,'#FFE3B8']],'z',0);
+    E('rect',{width:400,height:860,fill:'url(#twSky)'},null,'z',0);
+    E('circle',{cx:300,cy:150,r:70,fill:'#FFE7A0',opacity:.45},'#FFE7A0','z',1);
+    E('circle',{cx:300,cy:150,r:34,fill:'#FFC94A'},'#FFC94A','z',1);
+    [[40,110,1],[230,70,.8],[120,230,.9]].forEach(function(c,k){var x=c[0],y=c[1],s=c[2];
+      E('path',{d:'M'+x+' '+y+'q'+(10*s)+' '+(-26*s)+' '+(34*s)+' '+(-16*s)+'q'+(18*s)+' '+(-20*s)+' '+(40*s)+' '+(2*s)+'q'+(24*s)+' '+(-2*s)+' '+(22*s)+' '+(20*s)+'z',fill:'#FFFFFF',opacity:.92},'#FFFFFF','z',2+k*.3);});
+    /* rainbow (comes last in the sky) */
+    ['#FF6B6B','#FFA94D','#FFD43B','#69DB7C','#4DABF7','#9775FA'].forEach(function(c,k){
+      E('path',{d:'M-40 520 A'+(250-k*9)+' '+(250-k*9)+' 0 0 1 '+(460-k*0)+' 520',fill:'none',stroke:c,'stroke-width':8,opacity:.0,'data-rb':1},c,'z',4);});
+    /* birds */
+    [[90,300],[112,288],[260,260],[280,272]].forEach(function(b){E('path',{d:'M'+b[0]+' '+b[1]+'q6 -7 12 0q6 -7 12 0',fill:'none',stroke:'#3D4B66','stroke-width':2,'stroke-linecap':'round'},'#3D4B66','z',3.5);});
+    /* land — Quran */
+    E('path',{d:'M0 470 L60 400 L110 440 L180 360 L250 430 L320 380 L400 440 V860 H0Z',fill:'#8FA8D6'},'#8FA8D6','q',0);
+    E('path',{d:'M180 360 L200 382 L190 380 L176 392 L166 375Z',fill:'#FFFFFF'},'#FFFFFF','q',0);
+    E('path',{d:'M0 520 L80 460 L150 505 L230 450 L300 500 L360 470 L400 495 V860 H0Z',fill:'#6F93B8'},'#6F93B8','q',1);
+    grad('twLake',[[0,'#7FD3E6'],[1,'#2E8FB8']],'q',2);
+    E('path',{d:'M0 560 Q200 540 400 560 V640 Q200 660 0 640Z',fill:'url(#twLake)'},null,'q',2);
+    E('path',{d:'M30 585 h60 M150 600 h80 M280 590 h70',stroke:'#E8FAFF','stroke-width':3,'stroke-linecap':'round',opacity:.8},'#E8FAFF','q',2);
+    E('path',{d:'M0 640 Q100 600 200 630 T400 620 V860 H0Z',fill:'#7CC46E'},'#7CC46E','q',3);
+    /* trees */
+    [[40,640,1],[78,628,.8],[330,622,1.1],[365,636,.85]].forEach(function(t){var x=t[0],y=t[1],s=t[2];
+      E('rect',{x:x-3*s,y:y-4,width:6*s,height:26*s,fill:'#8A5A3B'},'#8A5A3B','q',4);
+      E('circle',{cx:x,cy:y-14*s,r:20*s,fill:'#3E9E4F'},'#3E9E4F','q',4);
+      E('circle',{cx:x-10*s,cy:y-4*s,r:13*s,fill:'#4DB35E'},'#4DB35E','q',4);});
+    E('path',{d:'M0 700 Q120 670 240 695 T400 690 V860 H0Z',fill:'#5DB05A'},'#5DB05A','q',5);
+    grad('twMead',[[0,'#8BD27A'],[1,'#4E9E4A']],'q',5);
+    E('path',{d:'M0 750 Q200 720 400 750 V860 H0Z',fill:'url(#twMead)'},null,'q',5);
+    return {o:o,defs:defs};
+  }
+  /* tokens: beads across the sky (dhikr) and flowers in the meadow (Quran), as many as the goal's steps (up to a cap) */
+  var BEAD=['#FF6B6B','#FF922B','#FCC419','#51CF66','#22B8CF','#4C6EF5','#BE4BDB','#F06595'];
+  var FLOW=['#FF6B9A','#FFD43B','#FF8A3D','#B197FC','#FFFFFF','#FF5C5C','#74C0FC'];
+  function tokSpec(n,kind){var out=[],r=rnd(kind==='z'?17:29),i;
+    for(i=0;i<n;i++){var t=n<2?.5:i/(n-1);
+      if(kind==='z'){var x=lerp(18,382,t),y=96+Math.pow((x-200)/182,2)*-58+58;out.push({x:x,y:y,c:BEAD[i%BEAD.length]});}
+      else{var rows=n>40?3:2,row=i%rows,col=Math.floor(i/rows),cols=Math.ceil(n/rows),tt=cols<2?.5:col/(cols-1);
+        out.push({x:lerp(14,386,tt)+(r()-.5)*8,y:770+row*26+(r()-.5)*10,c:FLOW[i%FLOW.length],s:.8+r()*.5});}}
+    return out;}
+
+  /* ---------- state ---------- */
+  var M={on:false,svg:null,parts:[],stops:[],tz:[],tq:[],key:'',fz:0,fq:0,p:0,zn:0,qn:0,nz:-1,nq:-1,day:''};
+  function cats(){var z=false,q=false;try{z=CATS.indexOf('dhikr')>=0&&CF('dhikr').on;q=CATS.indexOf('pages')>=0&&CF('pages').on;}catch(e){}return {z:z,q:q};}
+  function nums(){var k=todayKey(),c=cats(),r={k:k,z:c.z,q:c.q};
+    if(c.z){var g=goal(k,'dhikr'),v=tot(k,'dhikr');r.zs=Math.max(1,Math.ceil(g/20));r.zd=Math.min(r.zs,Math.floor(v/20));if(v>=g)r.zd=r.zs;}
+    if(c.q){var gq=goal(k,'pages'),vq=0;try{vq=liveTot(k,'pages');}catch(e){vq=tot(k,'pages');}r.qs=Math.max(1,Math.round(gq));r.qd=Math.min(r.qs,Math.floor(vq));if(vq>=gq)r.qd=r.qs;}
+    return r;}
+  function build(){var sc=document.getElementById('scene');if(!sc)return;
+    var n=nums(),ps=partsSVG(),svg=document.createElementNS(NS,'svg');
+    svg.id='twSvg';svg.setAttribute('viewBox','0 0 400 860');svg.setAttribute('preserveAspectRatio','xMidYMid slice');svg.setAttribute('aria-hidden','true');
+    var defs=document.createElementNS(NS,'defs');svg.appendChild(defs);M.parts=[];M.stops=[];
+    ps.defs.forEach(function(d){var lgE=document.createElementNS(NS,'linearGradient');lgE.id=d.id;lgE.setAttribute('x1',0);lgE.setAttribute('y1',0);lgE.setAttribute('x2',d.x2);lgE.setAttribute('y2',d.y2);
+      d.stops.forEach(function(s){var st=document.createElementNS(NS,'stop');st.setAttribute('offset',s[0]);lgE.appendChild(st);M.stops.push({el:st,c:s[1],g:d.g,i:d.i});});defs.appendChild(lgE);});
+    ps.o.forEach(function(p){var el=document.createElementNS(NS,p.t);for(var a in p.a)el.setAttribute(a,p.a[a]);svg.appendChild(el);
+      if(p.c)M.parts.push({el:el,c:p.c,g:p.g,i:p.i,attr:p.a.fill==='none'?'stroke':'fill',rb:!!p.a['data-rb']});});
+    /* tokens */
+    var gz=document.createElementNS(NS,'g'),gq=document.createElementNS(NS,'g');gz.setAttribute('class','tw-beads');gq.setAttribute('class','tw-flowers');
+    M.tz=[];M.tq=[];
+    if(n.z){var nz=Math.min(n.zs,60),sz=tokSpec(nz,'z');
+      var line=document.createElementNS(NS,'path');line.setAttribute('d','M18 96 Q200 270 382 96');line.setAttribute('fill','none');line.setAttribute('stroke','#B8C2CC');line.setAttribute('stroke-width','1.2');line.setAttribute('opacity','.7');gz.appendChild(line);M.parts.push({el:line,c:'#C9A14A',g:'z',i:1.5,attr:'stroke'});
+      sz.forEach(function(t){var e=document.createElementNS(NS,'circle');e.setAttribute('cx',t.x.toFixed(1));e.setAttribute('cy',t.y.toFixed(1));e.setAttribute('r',nz>40?3.6:4.6);e.setAttribute('stroke','#fff');e.setAttribute('stroke-width','1');gz.appendChild(e);M.tz.push({el:e,c:t.c,x:t.x,y:t.y,on:-1});});}
+    if(n.q){var nq=Math.min(n.qs,90),sq=tokSpec(nq,'q');
+      sq.forEach(function(t){var g=document.createElementNS(NS,'g');g.setAttribute('transform','translate('+t.x.toFixed(1)+' '+t.y.toFixed(1)+') scale('+t.s.toFixed(2)+')');
+        var st=document.createElementNS(NS,'path');st.setAttribute('d','M0 0 V12');st.setAttribute('stroke','#3E8E41');st.setAttribute('stroke-width','1.6');g.appendChild(st);
+        var f=document.createElementNS(NS,'path');f.setAttribute('d','M0 -6 C3 -10 7 -6 4 -2 C8 0 5 5 1 3 C0 7 -5 6 -4 2 C-8 1 -6 -5 -2 -4 C-3 -8 -1 -9 0 -6Z');g.appendChild(f);
+        var ce=document.createElementNS(NS,'circle');ce.setAttribute('r','1.6');ce.setAttribute('fill','#FFE066');g.appendChild(ce);
+        gq.appendChild(g);M.tq.push({el:f,st:st,ce:ce,c:t.c,x:t.x,y:t.y,on:-1});});}
+    svg.appendChild(gz);svg.appendChild(gq);
+    var fx=document.createElementNS(NS,'g');fx.id='twFx';svg.appendChild(fx);
+    var old=document.getElementById('twSvg');if(old)old.remove();
+    sc.insertBefore(svg,sc.firstChild);M.svg=svg;M.key=(n.z?n.zs:0)+'|'+(n.q?n.qs:0)+'|'+n.k;M.nz=-1;M.nq=-1;M.fz=-1;M.fq=-1;
+    paint(true);}
+  /* each part colours over its own stretch of the day: the sky over the whole day, the rest one after another, the rainbow last */
+  function amt(f,i,K){var a,b;if(i===0&&K===5){a=0;b=1;}else if(i===4&&K===5){a=.75;b=1;}else{a=i*(K===5?.14:.12);b=Math.min(1,a+(K===5?.5:.45));}
+    if(K===6&&i===5){a=.55;b=1;}return Math.max(0,Math.min(1,(f-a)/(b-a)));}
+  function ring(x,y,c){if(!M.svg||document.documentElement.getAttribute('data-motion')==='off')return;var fx=document.getElementById('twFx');if(!fx||fx.childNodes.length>12)return;
+    var e=document.createElementNS(NS,'circle');e.setAttribute('cx',x);e.setAttribute('cy',y);e.setAttribute('r','7');e.setAttribute('fill','none');e.setAttribute('stroke',c);e.setAttribute('stroke-width','2');e.setAttribute('class','tw-ring');fx.appendChild(e);setTimeout(function(){e.remove();},1300);}
+  function paint(first){if(!M.svg)return;var n=nums();
+    if(((n.z?n.zs:0)+'|'+(n.q?n.qs:0)+'|'+n.k)!==M.key){build();return;}
+    /* with only one kind on, it colours the whole picture */
+    var fz=n.z?n.zd/n.zs:(n.q?n.qd/n.qs:0),fq=n.q?n.qd/n.qs:fz;
+    if(!first&&fz===M.fz&&fq===M.fq)return;M.fz=fz;M.fq=fq;
+    M.p=(n.z&&n.q)?(fz+fq)/2:(n.z?fz:fq);
+    var KZ=5,KQ=6;
+    M.parts.forEach(function(p){var f=p.g==='z'?fz:fq,a=amt(f,p.i,p.g==='z'?KZ:KQ);
+      if(p.rb){p.el.setAttribute('opacity',(f>=1?.55:a*.25).toFixed(2));}
+      p.el.setAttribute(p.attr,mixC(p.c,a));});
+    M.stops.forEach(function(s){var f=s.g==='z'?fz:fq;s.el.setAttribute('stop-color',mixC(s.c,amt(f,s.i,s.g==='z'?KZ:KQ)));});
+    function tok(list,done,steps,kind){var n2=list.length;list.forEach(function(t,j){var need=Math.ceil((j+1)*steps/n2),on=done>=need?1:0;
+      if(on===t.on)return;var was=t.on;t.on=on;
+      t.el.setAttribute('fill',on?t.c:mixC(t.c,0));if(t.ce)t.ce.setAttribute('fill',on?'#FFE066':'#D6D6D6');if(t.st)t.st.setAttribute('stroke',on?'#3E8E41':'#A9B0AE');
+      t.el.setAttribute('class',on?'tw-on':'');
+      if(on&&was===0)ring(t.x,t.y,t.c);});}
+    if(n.z)tok(M.tz,n.zd,n.zs,'z');if(n.q)tok(M.tq,n.qd,n.qs,'q');
+    document.documentElement.style.setProperty('--tw-p',M.p.toFixed(3));
+    milestone(n);}
+  function milestone(n){try{var m=ST.meta.twM||{},st=Math.floor(M.p*4+1e-9);
+    if(m.d!==n.k){ST.meta.twM={d:n.k,s:st};return;}
+    if(st>m.s){m.s=st;ST.meta.twM=m;save();
+      if(M.on){if(st>=4)toast('اكتملت لوحة اليوم بألوانها، ما شاء الله',{gold:true,ms:4500});else toast(['','تلوّن ربع اللوحة','تلوّن نصف اللوحة','تلوّنت ثلاثة أرباع اللوحة'][st]);}}
+    }catch(e){}}
+
+  /* ---------- weather: rain (dhikr), snow (Quran), wind + lightning (the whole day) ---------- */
+  var W={cv:null,cx:null,w:0,h:0,dpr:1,rain:[],snow:[],burst:[],bolt:null,flash:0,next:0,last:0,raf:0,wind:0,gust:0,push:[]};
+  function motionOn(){return document.documentElement.getAttribute('data-motion')!=='off'&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);}
+  function wxOn(){try{return M.on&&!document.hidden&&motionOn()&&S().amb!==false;}catch(e){return false;}}
+  function sizeCv(){if(!W.cv)return;var d=Math.min(1.25,window.devicePixelRatio||1);W.dpr=d;W.w=innerWidth;W.h=innerHeight;W.cv.width=Math.round(W.w*d);W.cv.height=Math.round(W.h*d);W.cx.setTransform(d,0,0,d,0,0);}
+  function storm(){return Math.max(0,Math.min(1,(M.p-.3)/.7));}
+  function targets(){var I=1;try{I=+S().ambI||1;}catch(e){}
+    var fz=Math.max(0,M.fz),fq=Math.max(0,M.fq);
+    return {r:Math.round((8+190*fz)*I),s:Math.round((5+120*fq)*I)};}
+  function hue(){return Math.random()*360;}
+  function newRain(top){return {x:Math.random()*(W.w+160)-80,y:top?-Math.random()*W.h:Math.random()*W.h,l:9+Math.random()*12,v:8+Math.random()*6,h:hue(),vx:0};}
+  function newSnow(top){return {x:Math.random()*W.w,y:top?-10-Math.random()*40:Math.random()*W.h,r:1.2+Math.random()*2.6,v:.6+Math.random()*1.2,ph:Math.random()*6.28,h:hue(),vx:0};}
+  function frame(t){W.raf=0;if(!wxOn()){if(W.cx)W.cx.clearRect(0,0,W.w,W.h);return;}
+    W.raf=requestAnimationFrame(frame);if(t-W.last<32)return;W.last=t;
+    var c=W.cx,tg=targets(),sm=storm(),col=Math.max(0,M.p),i;
+    while(W.rain.length<tg.r)W.rain.push(newRain(W.rain.length>0));if(W.rain.length>tg.r)W.rain.length=tg.r;
+    while(W.snow.length<tg.s)W.snow.push(newSnow(W.snow.length>0));if(W.snow.length>tg.s)W.snow.length=tg.s;
+    W.gust+=(.5+sm*2.5)*.02;W.wind=.4+sm*3.2+Math.sin(W.gust)*(.3+sm*1.6);
+    c.clearRect(0,0,W.w,W.h);
+    if(W.flash>0){c.fillStyle='rgba(255,250,235,'+(W.flash*.22).toFixed(3)+')';c.fillRect(0,0,W.w,W.h);W.flash*=.82;if(W.flash<.02)W.flash=0;}
+    /* rain: grey drops that take colour as the day fills — drawn in 8 colour batches (one path each) */
+    c.lineCap='round';c.lineWidth=1.2+1.3*col;var bk=[[],[],[],[],[],[],[],[]],sb=[[],[]];
+    for(i=0;i<W.rain.length;i++){var d=W.rain[i];d.vx*=.92;var dx=W.wind*1.6+d.vx;d.x+=dx;d.y+=d.v+sm*4;
+      if(d.y>W.h+20||d.x<-100||d.x>W.w+100){W.rain[i]=newRain(true);continue;}d.dx=dx;bk[col>.05?(d.h/45|0):0].push(d);}
+    for(var q=0;q<8;q++){var L=bk[q];if(!L.length)continue;
+      c.strokeStyle=col>.05?'hsla('+(q*45+22)+','+Math.round(70*col)+'%,'+Math.round(62+10*(1-col))+'%,'+(.34+.36*col).toFixed(2)+')':'rgba(120,130,140,.32)';
+      c.beginPath();for(var u=0;u<L.length;u++){var e=L[u];c.moveTo(e.x,e.y);c.lineTo(e.x-e.dx*1.6,e.y-e.l);}c.stroke();}
+    /* snow */
+    for(i=0;i<W.snow.length;i++){var s=W.snow[i];s.ph+=.04;s.vx*=.93;s.x+=Math.sin(s.ph)*.5+W.wind*.55+s.vx;s.y+=s.v+sm*.8;
+      if(s.y>W.h+10){W.snow[i]=newSnow(true);continue;}if(s.x>W.w+10)s.x=-10;if(s.x<-10)s.x=W.w+10;sb[col>.6&&i%3===0?1:0].push(s);}
+    for(q=0;q<2;q++){if(!sb[q].length)continue;c.fillStyle=q?'hsla('+Math.round(W.gust*40%360)+',80%,85%,.9)':'rgba(255,255,255,.88)';c.beginPath();
+      for(u=0;u<sb[q].length;u++){var f=sb[q][u];c.moveTo(f.x+f.r,f.y);c.arc(f.x,f.y,f.r,0,6.283);}c.fill();}
+    /* touch bursts */
+    for(i=W.burst.length-1;i>=0;i--){var b=W.burst[i];b.t++;b.x+=b.vx;b.y+=b.vy;b.vy+=.25;b.vx*=.97;
+      var a=1-b.t/b.life;if(a<=0){W.burst.splice(i,1);continue;}
+      c.fillStyle='hsla('+b.h+',85%,60%,'+a.toFixed(2)+')';c.beginPath();c.arc(b.x,b.y,b.r*(0.6+a*.6),0,6.283);c.fill();}
+    /* lightning */
+    if(sm>0&&t>W.next){bolt(Math.random()*W.w,W.h*(.35+Math.random()*.25),sm);W.next=t+(15000-10500*sm)*(.6+Math.random()*.8);}
+    if(W.bolt){var B=W.bolt;B.t++;var ba=1-B.t/8;if(ba<=0)W.bolt=null;else{
+      c.beginPath();c.moveTo(B.p[0][0],B.p[0][1]);for(i=1;i<B.p.length;i++)c.lineTo(B.p[i][0],B.p[i][1]);
+      c.strokeStyle='hsla('+B.h+',100%,70%,'+(ba*.35).toFixed(2)+')';c.lineWidth=9;c.stroke();
+      c.strokeStyle='hsla('+B.h+',100%,88%,'+ba.toFixed(2)+')';c.lineWidth=2.4;c.stroke();}}
+  }
+  function bolt(x,y,sm){var p=[[x+(Math.random()-.5)*60,-10]],n=9,i;for(i=1;i<=n;i++){var k=i/n;p.push([lerp(p[0][0],x,k)+(Math.random()-.5)*34,lerp(-10,y,k)]);}
+    W.bolt={p:p,t:0,h:M.p>=1?48:(200+Math.random()*80)};W.flash=Math.max(W.flash,.5+sm*.5);}
+  function kick(){if(!W.raf&&wxOn())W.raf=requestAnimationFrame(frame);}
+  function mountWx(){var sc=document.getElementById('scene');if(!sc)return;
+    if(!W.cv){W.cv=document.createElement('canvas');W.cv.id='twWx';W.cx=W.cv.getContext('2d');}
+    if(!W.cv.isConnected)sc.appendChild(W.cv);sizeCv();W.next=performance.now()+4000;kick();}
+  function touch(ev){if(!M.on||!motionOn())return;var tg=ev.target;if(tg&&tg.closest&&tg.closest('button,a,input,select,textarea,label,[data-act],[role="tab"],[role="button"],.card,.ly-card,nav,header'))return;
+    var x=ev.clientX,y=ev.clientY,i,col=Math.max(.35,M.p);
+    for(i=0;i<16;i++){var an=Math.random()*6.283,sp=2+Math.random()*4;W.burst.push({x:x,y:y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-2,r:2+Math.random()*3,h:Math.round(hue()),t:0,life:26+Math.random()*16});}
+    if(W.burst.length>140)W.burst.splice(0,W.burst.length-140);
+    W.rain.forEach(function(d){var dx=d.x-x,dy=d.y-y,dd=dx*dx+dy*dy;if(dd<14400)d.vx+=dx/Math.sqrt(dd+1)*6;});
+    W.snow.forEach(function(s){var dx=s.x-x,dy=s.y-y,dd=dx*dx+dy*dy;if(dd<14400)s.vx+=dx/Math.sqrt(dd+1)*4;});
+    if(storm()>.15&&y<W.h*.6)bolt(x,y,storm()*.6);
+    /* a ring in the picture too */
+    try{var r=M.svg.getBoundingClientRect(),sc=Math.max(r.width/400,r.height/860),ox=(r.width-400*sc)/2,oy=(r.height-860*sc)/2;ring(((x-r.left-ox)/sc).toFixed(1),((y-r.top-oy)/sc).toFixed(1),'hsl('+Math.round(hue())+',80%,60%)');}catch(e){}
+    void col;kick();}
+
+  /* ---------- wiring ---------- */
+  function sync(){var on=false;try{on=skinNow()===ID;}catch(e){}
+    if(on&&!M.on){M.on=true;build();mountWx();}
+    else if(!on&&M.on){M.on=false;var s=document.getElementById('twSvg');if(s)s.remove();if(W.cv&&W.cv.isConnected)W.cv.remove();M.svg=null;document.documentElement.style.removeProperty('--tw-p');}
+    else if(on){paint(false);kick();}}
+  var at=applyTheme;applyTheme=function(){var r=at.apply(this,arguments);try{sync();}catch(e){}return r;};
+  var sv=save,pt=0;save=function(){var r=sv.apply(this,arguments);if(M.on&&!pt)pt=setTimeout(function(){pt=0;try{paint(false);}catch(e){}},120);return r;};
+  setInterval(function(){if(M.on&&!document.hidden)try{paint(false);}catch(e){}},5000);
+  addEventListener('resize',function(){if(M.on)sizeCv();});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden){try{paint(false);}catch(e){}kick();}});
+  document.addEventListener('pointerdown',touch,{passive:true,capture:true});
+  /* preview in the themes list: the picture half coloured */
+  try{var ps=partsSVG(),dz=[],h='<defs>';
+    ps.defs.forEach(function(d){h+='<linearGradient id="'+d.id+'P" x1="0" y1="0" x2="'+d.x2+'" y2="'+d.y2+'">'+d.stops.map(function(s){return '<stop offset="'+s[0]+'" stop-color="'+mixC(s[1],d.g==='z'?1:.15)+'"/>';}).join('')+'</linearGradient>';});
+    h+='</defs>';ps.o.forEach(function(p){if(p.a['data-rb'])return;var a='',k;for(k in p.a){var v=p.a[k];if(k==='fill'&&/^url/.test(v))v=v.replace(')','P)');a+=' '+k+'="'+v+'"';}
+      var col=p.c?mixC(p.c,p.g==='z'?1:amt(.45,p.i,6)):null;if(col)a=a.replace(/ (fill|stroke)="#[0-9A-Fa-f]{6}"/,' $1="'+col+'"');h+='<'+p.t+a+'/>';});
+    TH_ART[ID]=h;void dz;}catch(e){}
+  /* switch to the new theme once (as with every new scene theme); the themes card keeps the way back */
+  try{if(!ST.meta.twInit){ST.meta.twInit=1;ST.meta.twPrev=ST.s.skin;ST.s.skin=ID;save();}}catch(e){}
+  try{var cs=document.getElementById('skinCss');if(cs)cs.textContent=skinCSS();}catch(e){}
+  try{applyTheme();}catch(e){}
+})();
 
 
 refresh();
