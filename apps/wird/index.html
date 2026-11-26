@@ -1521,6 +1521,170 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #scene,#amb,#lylSky{contain:strict;transform:translateZ(0)}
 .view.enter>*{animation-duration:.4s}
 </style>
+<style id="polish1126">/* «حسن ١٠٠ تحسين بصري طفيف بالتطبيق ليزيد الجمالية والانميشين» (owner 2026-11-26).
+   One hundred small touches, all of them light: movement is transform/opacity only (no layout, no blur on scrolling cards),
+   one-off (no new endless animation), and everything stops with «تقليل الحركة» (data-motion="off") or the system setting.
+   The numbers match the list in polish1126.md. */
+:root{--ease-out:cubic-bezier(.2,.8,.2,1);--ease-spring:cubic-bezier(.34,1.56,.64,1)}
+/* --- moving between screens (1-10) --- */
+@keyframes p-up{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+@keyframes p-fade{from{opacity:0}to{opacity:1}}
+@keyframes p-pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@keyframes p-pulse1{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes p-shine{from{transform:translate3d(120%,0,0)}to{transform:translate3d(-120%,0,0)}}
+@keyframes p-wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes p-drop{from{opacity:0;transform:translate3d(0,-10px,0)}to{opacity:1;transform:none}}
+@keyframes p-slide{from{opacity:0;transform:translate3d(-12px,0,0)}to{opacity:1;transform:none}}
+/*1*/ .vt-in>section,.vt-in>.card,.vt-in>.hl,.vt-in>.tiles,.vt-in>.ly-card{animation:p-up .5s var(--ease-out) both}
+/*2*/ .vt-in>:nth-child(2){animation-delay:.03s}.vt-in>:nth-child(3){animation-delay:.06s}.vt-in>:nth-child(4){animation-delay:.09s}
+/*3*/ .vt-in>:nth-child(5){animation-delay:.12s}.vt-in>:nth-child(6){animation-delay:.15s}.vt-in>:nth-child(7){animation-delay:.18s}
+/*4*/ .vt-in>:nth-child(n+8){animation-delay:.21s}
+/*5*/ .vt-in>.ptitle{animation:p-slide .45s var(--ease-out) both}
+/*6*/ .vt-in .ptitle h1{animation:p-fade .6s ease both}
+/*7*/ .vt-in .seg{animation:p-drop .45s var(--ease-out) both}
+/*8*/ .vt-in .st-sec{animation:p-drop .5s .05s var(--ease-out) both}
+/*9*/ .vt-in .dsh .ds-k{animation:p-pop .5s var(--ease-spring) both}
+/*10*/ .vt-in .dsh .ds-k:nth-child(2){animation-delay:.06s}.vt-in .dsh .ds-k:nth-child(3){animation-delay:.12s}.vt-in .dsh .ds-k:nth-child(4){animation-delay:.18s}
+/* --- touch feedback (11-25) --- */
+/*11*/ button,[role="button"],.btn,.chip[data-act]{-webkit-tap-highlight-color:transparent}
+/*12*/ .btn{transition:transform .18s var(--ease-spring),box-shadow .25s ease,filter .2s}
+/*13*/ .btn:active{transform:scale(.96);filter:brightness(1.05)}
+/*14*/ .round-btn{transition:transform .18s var(--ease-spring)}
+/*15*/ .round-btn:active{transform:scale(.9)}
+/*16*/ .seg button{transition:transform .18s var(--ease-spring),background-color .25s,color .25s}
+/*17*/ .seg button:active{transform:scale(.95)}
+/*18*/ .hli,.tile{transition:transform .2s var(--ease-spring)}
+/*19*/ .hli:active,.tile:active{transform:scale(.98)}
+/*20*/ .card[data-act],.card[role="button"]{transition:transform .2s var(--ease-spring)}
+/*21*/ .card[data-act]:active,.card[role="button"]:active{transform:scale(.985)}
+/*22*/ .chip{transition:transform .2s var(--ease-spring),background-color .25s}
+/*23*/ .chip[data-act]:active{transform:scale(.94)}
+/*24*/ .st-sec button{transition:transform .18s var(--ease-spring),background-color .25s,border-color .25s,color .25s}
+/*25*/ .st-sec button:active{transform:scale(.95)}
+/* --- bottom bar (26-35) --- */
+/*26*/ .nav button,.nav a{transition:color .25s ease,transform .2s var(--ease-spring)}
+/*27*/ .nav button:active,.nav a:active{transform:scale(.92)}
+/*28*/ .nav [aria-current="page"] svg,.nav [aria-selected="true"] svg,.nav .on svg{animation:p-pulse1 .45s var(--ease-spring)}
+/*29*/ .nav svg{transition:transform .25s var(--ease-spring)}
+/*30*/ .nav [aria-current="page"] svg,.nav .on svg{transform:translate3d(0,-1px,0)}
+/*31*/ .nav span{transition:opacity .25s}
+/*32*/ .nav{transition:transform .3s var(--ease-out)}
+/*33*/ .nav::before{content:"";position:absolute;inset-inline:22%;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--rim),transparent);pointer-events:none}
+/*34*/ .nav button:focus-visible,.nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:14px}
+/*35*/ .nav{padding-top:9px}
+/* --- cards, depth and type (36-55) --- */
+/*36*/ .card{transition:box-shadow .3s ease}
+/*37*/ .card h3.h{letter-spacing:.1px}
+/*38*/ .num,b.num{font-variant-numeric:tabular-nums}
+/*39*/ .card p,.note{line-height:1.7}
+/*40*/ .ptitle h1{letter-spacing:-.2px}
+/*41*/ .ptitle p{opacity:.92}
+/*42*/ ::selection{background:color-mix(in srgb,var(--accent) 30%,transparent)}
+/*43*/ html{scroll-behavior:smooth}
+/*44*/ body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+/*45*/ img,svg{-webkit-user-drag:none}
+/*46*/ .chip{letter-spacing:.1px}
+/*47*/ .card hr,.sep{opacity:.6}
+/*48*/ .hli b,.tile b{transition:color .3s}
+/*49*/ .hero{transition:transform .25s var(--ease-spring)}
+/*50*/ .hero:active{transform:scale(.99)}
+/*51*/ .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);transform:translate3d(120%,0,0);pointer-events:none}
+/*52*/ .vt-in .hero::after{animation:p-shine 1.4s .35s ease-out both}
+/*53*/ .card .sub,.card small.sub{opacity:.9}
+/*54*/ .rp-hi{transition:transform .3s var(--ease-spring)}
+/*55*/ .vt-in .rp-hi{animation:p-pop .5s .15s var(--ease-spring) both}
+/* --- controls (56-70) --- */
+/*56*/ .sw span::after{transition:transform .28s var(--ease-spring)!important}
+/*57*/ .sw span{transition:background-color .25s ease!important}
+/*58*/ .sw input:active+span::after{transform:scale(.9)}
+/*59*/ input[type="range"]{accent-color:var(--accent)}
+/*60*/ input,select,textarea{transition:border-color .2s,box-shadow .2s}
+/*61*/ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+/*62*/ button:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/*63*/ .skin{transition:transform .2s var(--ease-spring),border-color .25s}
+/*64*/ .skin[aria-pressed="true"]{border-color:var(--accent)}
+/*65*/ .skin[aria-pressed="true"] .ok{animation:p-pop .45s var(--ease-spring) both}
+/*66*/ .skin svg{transition:transform .5s var(--ease-out)}
+/*67*/ .skin:active svg{transform:scale(1.04)}
+/*68*/ .seg button[aria-pressed="true"]{box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 28%,transparent)}
+/*69*/ .st-sec button[aria-selected="true"]{box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 18%,transparent)}
+/*70*/ details>summary{transition:color .2s}
+/* --- sheets, toasts, dialogs (71-80) --- */
+/*71*/ .sheet{animation:p-up .38s var(--ease-out) both}
+/*72*/ .toast div{animation:p-drop .35s var(--ease-spring) both}
+/*73*/ #rpOv{animation:p-fade .25s ease both}
+/*74*/ #rpOv .rp-pic img{animation:p-up .45s var(--ease-out) both}
+/*75*/ #rpOv .rp-save{transition:transform .18s var(--ease-spring)}
+/*76*/ #rpOv .rp-save:active,#rpOv .rp-share:active{transform:scale(.96)}
+/*77*/ #rpOv .rp-seg button{transition:background-color .25s,color .25s,transform .18s var(--ease-spring)}
+/*78*/ #rpOv .rp-seg button:active{transform:scale(.95)}
+/*79*/ .rp-tbtn svg{transition:transform .3s var(--ease-spring)}
+/*80*/ .rp-tbtn:active svg{animation:p-wiggle .4s ease}
+/* --- statistics (81-92) --- */
+/*81*/ .vt-in .yr-d i,.vt-in .hm i{animation:p-fade .5s ease both}
+/*82*/ .ds-line{stroke-dasharray:1200;stroke-dashoffset:0}
+/*83*/ .vt-in .ds-line{animation:p-draw 1.1s .15s var(--ease-out) both}
+@keyframes p-draw{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
+/*84*/ .vt-in .ds-dot{animation:p-pop .4s .9s var(--ease-spring) both;transform-box:fill-box;transform-origin:center}
+/*85*/ .vt-in .ds-dn circle{animation:p-fade .7s ease both}
+/*86*/ .vt-in .ds-row em{transform-origin:left center;animation:p-growx .7s var(--ease-out) both}
+@keyframes p-growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/*87*/ .vt-in .ds-grow .ds-gart rect{transform-box:fill-box;transform-origin:bottom;animation:p-growy .6s var(--ease-spring) both}
+@keyframes p-growy{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+/*88*/ .vt-in .ds-grow .ds-gart rect:nth-of-type(2){animation-delay:.08s}.vt-in .ds-grow .ds-gart rect:nth-of-type(3){animation-delay:.16s}
+/*89*/ .vt-in .ds-gt b{animation:p-pop .55s .2s var(--ease-spring) both}
+/*90*/ .vt-in .ds-top{animation:p-drop .5s var(--ease-spring) both}
+/*91*/ .ds-k{transition:transform .2s var(--ease-spring)}
+/*92*/ .ds-k:active{transform:scale(.97)}
+/* --- home (93-100) --- */
+/*93*/ .vt-in .dial,.vt-in .ly-dial,.vt-in #dial{animation:p-pop .55s var(--ease-spring) both}
+/*94*/ .primary .btn{box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 30%,transparent)}
+/*95*/ .primary .btn svg{transition:transform .25s var(--ease-spring)}
+/*96*/ .primary .btn:active svg{transform:scale(.85)}
+/*97*/ .jr{transition:transform .2s var(--ease-spring)}
+/*98*/ .jr-go:active{transform:scale(.985)}
+/*99*/ .p-bump{animation:p-pulse1 .35s var(--ease-spring)}
+/*100*/ #splash b{letter-spacing:.5px}
+/* calm: none of the above moves when motion is off */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
+:root[data-motion="off"] .vt-in *,:root[data-motion="off"] .vt-in>*{animation:none!important}
+</style>
+<style id="rep1126">/* reports in the dashboard look (owner 2026-11-26), whatever the app's theme: the screen runs as «نسيم» while open */
+:root[data-skin="nasim"] #v-reports{--c-dhikr:#E39AA2;--c-pages:#5BA89C;--accent:#4FA79A;--accent2:#3B8C80;--gold:#C9A06A;--track:#EEF1F0;--ink:#2B3A38;--ink2:#4E5A58;--muted:#7B8583}
+:root[data-skin="nasim"] #v-reports>section.card{background:#fff;border:1px solid #EFEAE6;border-radius:20px;box-shadow:0 2px 12px rgba(47,95,91,.06)}
+:root[data-skin="nasim"] #v-reports h3.h{color:#2B2F2E;font-weight:700}
+.rp-hi{display:inline-grid;place-items:center;width:22px;height:22px;margin-inline-end:7px;vertical-align:-4px;color:#B5606B;font-style:normal}
+.rp-hi svg{width:100%;height:100%}
+:root[data-skin="nasim"] #v-reports .rp-hd{flex-direction:column;align-items:center;gap:2px;text-align:center}
+:root[data-skin="nasim"] #v-reports .rp-hd>*{margin-inline:auto}
+:root[data-skin="nasim"] #v-reports h3.rp-hc{text-align:center}
+/* bars like the dashboard: label | axis | pastel bar with a rounded end | value. Fixed columns so every row lines up (the months card) */
+#v-reports .st-bar{grid-template-columns:5.6em 1fr 6.4em}
+.dp .st-bar{grid-template-columns:5.6em 1fr 6.4em}
+#v-reports .st-bar>span{overflow:hidden;text-overflow:ellipsis}
+#v-reports .st-bar>b{text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root[data-skin="nasim"] #v-reports .st-bar i{height:16px;border-radius:0;background:transparent;border-inline-start:1.5px solid #9AA5A3;overflow:visible}
+:root[data-skin="nasim"] #v-reports .st-bar em{border-radius:7px 0 0 7px;transform-origin:right center;animation:rp-grow .7s cubic-bezier(.2,.8,.2,1) both}
+:root[data-skin="nasim"] #v-reports .st-bar.was em{opacity:.45}
+@keyframes rp-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* hero and tiles: pastel like the KPI tiles */
+:root[data-skin="nasim"] #v-reports .hero{background:linear-gradient(135deg,#E3F1EE,#EEF6F4)!important;color:#2F5F5B;box-shadow:0 2px 12px rgba(47,95,91,.08)}
+:root[data-skin="nasim"] #v-reports .hero *{color:#2F5F5B}
+:root[data-skin="nasim"] #v-reports .hero .sic{background:#D2E8E3}
+:root[data-skin="nasim"] #v-reports .hero circle{stroke:#4FA79A}
+:root[data-skin="nasim"] #v-reports .hero circle:first-of-type{stroke:#D2E8E3}
+:root[data-skin="nasim"] #v-reports .hli,:root[data-skin="nasim"] #v-reports .tile{border:1px solid rgba(0,0,0,.05);box-shadow:none}
+:root[data-skin="nasim"] #v-reports .hli:nth-child(4n+1),:root[data-skin="nasim"] #v-reports .tile:nth-child(4n+1){background:#FAF4EC}
+:root[data-skin="nasim"] #v-reports .hli:nth-child(4n+2),:root[data-skin="nasim"] #v-reports .tile:nth-child(4n+2){background:#EEF6F4}
+:root[data-skin="nasim"] #v-reports .hli:nth-child(4n+3),:root[data-skin="nasim"] #v-reports .tile:nth-child(4n+3){background:#FCF0F0}
+:root[data-skin="nasim"] #v-reports .hli:nth-child(4n),:root[data-skin="nasim"] #v-reports .tile:nth-child(4n){background:#EEF6F4}
+:root[data-skin="nasim"] #v-reports .seg{background:#fff;border-color:#EFEAE6;box-shadow:0 2px 10px rgba(47,95,91,.06)}
+:root[data-skin="nasim"] #v-reports .ptitle h1{color:#2F5F5B}
+@media (prefers-reduced-motion:reduce){#v-reports .st-bar em{animation:none!important}}
+:root[data-motion="off"] #v-reports .st-bar em{animation:none!important}
+:root[data-skin="nasim"] #v-reports{--good:#4FA79A;--late:#D9808B;--warn:#D9B47E}
+:root[data-skin="nasim"] #v-reports .hero .d,:root[data-skin="nasim"] #v-reports .hero .chip{background:#D2E8E3;color:#2F5F5B}
+</style>
 <style id="dash1126">/* «نظرة إحصائية عامة» (owner's pastel mockup, 2026-11-26): only in the «نسيم» theme */
 .dsh{display:none}
 :root[data-skin="nasim"]{--f-body:"Tajawal",system-ui,sans-serif;--f-disp:"Tajawal",system-ui,sans-serif}
@@ -1740,7 +1904,7 @@ html.rp-on,html.rp-on body{overflow:hidden}
 #rpOv .rp-seg{display:flex;gap:4px;padding:4px;margin:6px 0 10px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
 #rpOv .rp-seg button{flex:1;min-height:40px;border:0;border-radius:99px;background:none;color:#A7A6CC;font:inherit;font-size:.9rem;cursor:pointer}
 #rpOv .rp-seg button[aria-pressed="true"]{background:#EBC86F;color:#2A1D05;font-weight:700}
-#rpOv .rp-pic{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;border-radius:18px;background:#0B1030;border:1px solid rgba(255,255,255,.08)}
+#rpOv .rp-pic{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;border-radius:18px;background:#FBF9F7;border:1px solid rgba(255,255,255,.08)}
 #rpOv .rp-pic img{display:block;width:100%;height:auto;transition:opacity .2s}
 #rpOv .rp-bar{padding-top:10px}
 #rpOv #rpMsg{margin:0 0 8px;min-height:1.3em;text-align:center;font-size:.88rem;color:#F2B8A0}#rpOv #rpMsg.ok{color:#BFE9DE}
@@ -1758,7 +1922,7 @@ html.rp-on,html.rp-on body{overflow:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 26/11 15:49";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 26/11 16:05";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="sp-r" cx="60" cy="60" r="52"/><path class="sp-m" d="M72 30a32 32 0 1 0 18 52a26 26 0 1 1-18-52z"/></svg><b>وِرد</b><small>قرآن وذكر كل يوم</small></div>
@@ -3459,8 +3623,9 @@ function wgSend(now){var N=window.WirdNative;if(!N||!N.widget)return;clearTimeou
             WirdNative.shareImage(base64, name) for «مشاركة».
      link → a download of the PNG (Android puts it in the gallery under Download) or the system share sheet. */
 var RP={r:'all',cv:null,busy:0};
-var RP_C={bg0:'#070B24',bg1:'#151248',bg2:'#0B1434',card:'rgba(255,255,255,0.055)',rim:'rgba(255,255,255,0.11)',tx:'#F3F1FF',mu:'#A7A6CC',fa:'#6F6F99',
-  gold:'#EBC86F',gold2:'#F7E3A6',pages:'#7ED8C9',dhikr:'#B8A6FF',track:'rgba(255,255,255,0.08)'};
+/* (2026-11-26, later) «اجعل التقارير كلها بنفس نمط هذه الصورة»: the picture now uses the pastel dashboard colours too */
+var RP_C={bg0:'#FBF9F7',bg1:'#F3F8F6',bg2:'#FCF3F1',card:'#FFFFFF',rim:'#EFE8E3',tx:'#2B3A38',mu:'#6E7775',fa:'#9AA3A1',
+  gold:'#C9A06A',gold2:'#9A7646',pages:'#5BA89C',dhikr:'#E39AA2',track:'#EEF1F0',ink:'#2F5F5B',beige:'#E2C9A6'};
 function rpCol(c){return RP_C[c]||RP_C.gold;}
 function rpKeys(r){var t=todayKey(),f=firstKey(),a=r==='7'?addDays(t,-6):r==='30'?addDays(t,-29):f;if(a<f&&r==='all')a=f;return rangeAll(a,t);}
 function rpData(r){var ks=rpKeys(r),cs=onCats().slice().sort(function(a,b){return a==='pages'?-1:b==='pages'?1:0;}),t=todayKey(),D={ks:ks,cs:cs,n:ks.length,c:{},met:0,act:0,ses:0,rate:0,wd:[0,0,0,0,0,0,0],wn:[0,0,0,0,0,0,0]};
@@ -3477,6 +3642,12 @@ function rpData(r){var ks=rpKeys(r),cs=onCats().slice().sort(function(a,b){retur
   /* streaks over the chosen days (rest days neither break nor add) */
   var run=0,best=0,gap=0,gapMax=0;ks.forEach(function(k){if(metAll(k)){run++;gap=0;if(run>best)best=run;}else if(isRest(k)){}else if(k<t){run=0;gap++;if(gap>gapMax)gapMax=gap;}});
   D.best=best;D.cur=streak();D.gap=gapMax;
+  /* (2026-11-26, «تفاصيل ورسومات اكثر») how the days went, a completion curve, streak list */
+  var dn={done:0,part:0,none:0,rest:0},live=ks.filter(function(k){return k<=t;});
+  live.forEach(function(k){if(isRest(k))dn.rest++;else{var p=pctDay(k);if(p>=1)dn.done++;else if(p>0)dn.part++;else dn.none++;}});D.dn=dn;
+  var nb=Math.min(24,live.length),CV=[];for(var b=0;b<nb;b++){var a0=Math.floor(b*live.length/nb),a1=Math.floor((b+1)*live.length/nb),s0=0,n0=0;
+    for(var q=a0;q<a1;q++){if(isRest(live[q]))continue;s0+=Math.min(1,pctDay(live[q]));n0++;}CV.push({a:live[a0],v:n0?s0/n0:null});}
+  D.curve=CV;
   var bw=-1,bi=-1;for(var i=0;i<7;i++){if(D.wn[i]>=1){var av=D.wd[i]/D.wn[i];if(av>bw){bw=av;bi=i;}}}D.bwd=bi;
   /* months */
   var M={},mo=[];ks.forEach(function(k){var m=k.slice(0,7);if(!M[m]){M[m]={k:m,met:0,days:0,c:{}};cs.forEach(function(c){M[m].c[c]=0;});mo.push(M[m]);}
@@ -3498,31 +3669,41 @@ function rpRR(x,y,w,h,r){var X=RP.x;X.beginPath();X.moveTo(x+r,y);X.lineTo(x+w-r
   X.lineTo(x+r,y+h);X.quadraticCurveTo(x,y+h,x,y+h-r);X.lineTo(x,y+r);X.quadraticCurveTo(x,y,x+r,y);X.closePath();}
 function rpT(s,x,y,sz,o){o=o||{};var X=RP.x;X.font=(o.w||400)+' '+sz+'px '+(o.f||RP_F.b);X.fillStyle=o.c||RP_C.tx;X.textAlign=o.a||'right';X.textBaseline=o.bl||'alphabetic';X.direction='rtl';
   if(o.fit){var w=X.measureText(s).width;if(w>o.fit){X.font=(o.w||400)+' '+Math.floor(sz*o.fit/w)+'px '+(o.f||RP_F.b);}}X.fillText(s,x,y);}
-function rpCard(y,h,title,sub){var X=RP.x;rpRR(60,y,960,h,34);X.fillStyle=RP_C.card;X.fill();X.lineWidth=2;X.strokeStyle=RP_C.rim;X.stroke();
+function rpCard(y,h,title,sub){var X=RP.x;rpRR(60,y,960,h,34);X.save();X.shadowColor='rgba(47,95,91,.10)';X.shadowBlur=26;X.shadowOffsetY=8;X.fillStyle=RP_C.card;X.fill();X.restore();X.lineWidth=2;X.strokeStyle=RP_C.rim;X.stroke();
   if(title){rpT(title,976,y+66,36,{w:700});if(sub)rpT(sub,104,y+64,24,{c:RP_C.mu,a:'left'});}return y+(title?100:40);}
 function rpDate(k,o){try{return dateOf(k).toLocaleDateString(LOC(),o||{day:'numeric',month:'long',year:'numeric'});}catch(e){return k;}}
-function rpH(D){var h=380+430+400+D.cs.length*430+(D.mode==='d'&&D.n<=7?0:480)+550;if(D.months.length>1)h+=D.months.length*76+150;return h+220;}
+function rpH(D){var h=380+430+400+470+470+450+(110+6*66+40)+D.cs.length*430+(D.mode==='d'&&D.n<=7?0:480)+550;if(D.months.length>1)h+=D.months.length*76+150;return h+220;}
 function rpDraw(D){var W=1080,H=rpH(D),cv=RP.cv||(RP.cv=document.createElement('canvas'));cv.width=W;cv.height=H;var X=RP.x=cv.getContext('2d');
-  /* sky */
-  var g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,RP_C.bg1);g.addColorStop(.45,RP_C.bg0);g.addColorStop(1,RP_C.bg2);X.fillStyle=g;X.fillRect(0,0,W,H);
-  var rg=X.createRadialGradient(W*.78,170,10,W*.78,170,520);rg.addColorStop(0,'rgba(235,200,111,0.20)');rg.addColorStop(1,'rgba(235,200,111,0)');X.fillStyle=rg;X.fillRect(0,0,W,760);
-  var sd=7;function rnd(){sd=(sd*16807)%2147483647;return sd/2147483647;}
-  for(var i=0;i<Math.round(H/9);i++){var sx=rnd()*W,sy=rnd()*H,sr=rnd()*1.8+.4;X.globalAlpha=.15+rnd()*.6;X.fillStyle='#fff';X.beginPath();X.arc(sx,sy,sr,0,7);X.fill();}X.globalAlpha=1;
-  /* crescent (drawn apart, so the cut does not punch the sky) */
-  var mc=document.createElement('canvas');mc.width=mc.height=200;var M=mc.getContext('2d');M.fillStyle=RP_C.gold;M.shadowColor='rgba(235,200,111,.8)';M.shadowBlur=30;
-  M.beginPath();M.arc(100,100,56,0,7);M.fill();M.shadowBlur=0;M.globalCompositeOperation='destination-out';M.beginPath();M.arc(124,82,50,0,7);M.fill();X.drawImage(mc,40,50);
+  /* page: off-white with soft teal / pink corners and thin gold curves, like the dashboard */
+  X.fillStyle=RP_C.bg0;X.fillRect(0,0,W,H);
+  function blob(pts,col,al){X.globalAlpha=al;X.fillStyle=col;X.beginPath();X.moveTo(pts[0],pts[1]);for(var i=2;i<pts.length;i+=6)X.bezierCurveTo(pts[i],pts[i+1],pts[i+2],pts[i+3],pts[i+4],pts[i+5]);X.closePath();X.fill();X.globalAlpha=1;}
+  blob([0,0,260,0,240,120,170,170,110,200,40,240,30,330,0,420],'#F6D3CF',.75);
+  blob([0,0,200,0,160,70,120,110,80,150,50,200,30,280,0,360],'#9CCFC5',.9);
+  blob([W,0,W-230,0,W-220,90,W-170,170,W-90,200,W-40,210,W,190,W,160],'#F3C4C6',.7);
+  X.strokeStyle='#C9A06A';X.lineWidth=2;X.globalAlpha=.8;X.beginPath();X.moveTo(0,190);X.bezierCurveTo(70,150,150,70,170,0);X.stroke();
+  X.beginPath();X.moveTo(W,300);X.bezierCurveTo(W-110,280,W-220,150,W-240,0);X.stroke();X.globalAlpha=1;
+  /* a leaf sprig on the left corner */
+  X.strokeStyle='#5E9489';X.lineWidth=3;X.beginPath();X.moveTo(30,420);X.bezierCurveTo(60,330,110,260,170,210);X.stroke();
+  [[52,370,-2.3],[66,330,-.5],[90,300,-2.5],[110,270,-.6],[140,240,-1.3]].forEach(function(l,i){X.save();X.translate(l[0],l[1]);X.rotate(l[2]);X.fillStyle=i%2?'#8DBDB2':'#6FA69A';
+    X.beginPath();X.moveTo(0,0);X.bezierCurveTo(18,-22,54,-24,80,0);X.bezierCurveTo(54,24,18,22,0,0);X.fill();X.restore();});
+  blob([W,H-520,W-150,H-480,W-260,H-330,W-260,H-200,W-250,H-60,W-200,H,W,H,W,H-520],'#DCEFEA',.9);
+  blob([0,H-380,120,H-360,200,H-240,210,H-120,212,H-40,190,H,0,H,0,H-380],'#FBE6E3',.9);
+  /* a small rising chart mark over the title, like the dashboard */
+  X.strokeStyle=RP_C.gold;X.lineWidth=5;X.lineJoin='round';X.lineCap='round';[[0,40],[26,28],[52,14]].forEach(function(b){X.strokeRect(W/2-44+b[0]+0,60+b[1],18,48-b[1]);});
+  X.beginPath();X.moveTo(W/2-46,72);X.lineTo(W/2-12,50);X.lineTo(W/2+4,60);X.lineTo(W/2+40,30);X.stroke();X.beginPath();X.moveTo(W/2+20,30);X.lineTo(W/2+40,30);X.lineTo(W/2+40,50);X.stroke();
   /* header */
   var y=0,nm=(S().name||'').trim(),t=D.ks[D.ks.length-1],f=D.ks[0];
-  rpT(D.r==='all'?'مسيرتي مع الوِرد':'وِردي في '+(D.r==='7'?'آخر ٧ أيام':'آخر ٣٠ يومًا'),W-60,y+150,82,{w:700,f:RP_F.t,c:RP_C.gold2,fit:690});
-  rpT(nm?'تقرير '+nm+' في القرآن والذكر':'تقرير شامل للقرآن والذكر',W-60,y+214,34,{c:RP_C.tx,w:500});
-  rpT('من '+rpDate(f)+' إلى '+rpDate(t)+' · '+dpDays(D.n),W-60,y+268,28,{c:RP_C.mu,fit:900});
-  try{rpT(hijri(t),W-60,y+312,26,{c:RP_C.fa});}catch(e){}
+  rpT(D.r==='all'?'مسيرتي مع الوِرد':'وِردي في '+(D.r==='7'?'آخر ٧ أيام':'آخر ٣٠ يومًا'),W/2,y+196,76,{w:700,c:RP_C.ink,a:'center',fit:760});
+  var sub=nm?'تقرير '+nm+' في القرآن والذكر':'أبرز المؤشرات في القرآن والذكر';rpT(sub,W/2,y+254,32,{c:RP_C.mu,w:500,a:'center',fit:640});
+  X.font='500 32px '+RP_F.b;var sw2=Math.min(640,X.measureText(sub).width);X.fillStyle=RP_C.gold;X.fillRect(W/2-sw2/2-130,y+243,100,2);X.fillRect(W/2+sw2/2+30,y+243,100,2);
+  rpT('من '+rpDate(f)+' إلى '+rpDate(t)+' · '+dpDays(D.n),W/2,y+304,26,{c:RP_C.fa,a:'center',fit:900});
+  try{rpT(hijri(t),W/2,y+342,24,{c:RP_C.fa,a:'center'});}catch(e){}
   y=380;
   /* hero: completion ring + one side per kind */
   rpCard(y,400);var cx=540,cy=y+200,R=128;X.lineCap='round';X.lineWidth=26;X.strokeStyle=RP_C.track;X.beginPath();X.arc(cx,cy,R,0,7);X.stroke();
   var rgr=X.createLinearGradient(cx-R,cy-R,cx+R,cy+R);rgr.addColorStop(0,RP_C.gold2);rgr.addColorStop(1,RP_C.gold);X.strokeStyle=rgr;
   if(D.rate>0){X.beginPath();X.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(.005,D.rate));X.stroke();}
-  rpT(pct(Math.round(D.rate*100)),cx,cy+16,64,{w:700,a:'center',f:RP_F.n});rpT('نسبة الإنجاز',cx,cy+62,24,{a:'center',c:RP_C.mu});
+  rpT(pct(Math.round(D.rate*100)),cx,cy+16,64,{w:700,a:'center',f:RP_F.n,c:RP_C.ink});rpT('نسبة الإنجاز',cx,cy+62,24,{a:'center',c:RP_C.mu});
   var side=[[860,D.cs[0]],[220,D.cs[1]]];
   side.forEach(function(s){var c=s[1],x=s[0];if(!c)return;var o=D.c[c],lab=CF(c).label;
     X.fillStyle=rpCol(c);X.beginPath();X.arc(x,y+92,9,0,7);X.fill();
@@ -3532,9 +3713,9 @@ function rpDraw(D){var W=1080,H=rpH(D),cv=RP.cv||(RP.cv=document.createElement('
     rpT('في اليوم نحو '+uq(c,Math.round(o.sum/Math.max(1,D.n))),x,y+322,24,{a:'center',c:RP_C.fa,fit:300});});
   y+=430;
   /* tiles */
-  var bw=D.bwd>=0?WD[D.bwd]:'—',tiles=[[fmt(D.met),'يومًا أتممت فيه وِردك كاملًا',RP_C.gold],[fmt(D.cur),'السلسلة الحالية (يوم)',RP_C.gold2],[fmt(D.best),'أطول سلسلة (يوم)',RP_C.gold2],
-    [fmt(D.act)+' / '+fmt(D.n),'أيام سجّلت فيها',RP_C.tx],[fmt(D.ses),'جلسة قراءة وذكر',RP_C.tx],[bw,'أفضل أيامك في الأسبوع',RP_C.tx]];
-  tiles.forEach(function(tl,i){var col=i%3,row=Math.floor(i/3),x=60+(2-col)*328,yy=y+row*190;rpRR(x,yy,304,170,28);X.fillStyle=RP_C.card;X.fill();X.lineWidth=2;X.strokeStyle=RP_C.rim;X.stroke();
+  var bw=D.bwd>=0?WD[D.bwd]:'—',tiles=[[fmt(D.met),'يومًا أتممت فيه وِردك كاملًا',RP_C.gold2],[fmt(D.cur),'السلسلة الحالية (يوم)',RP_C.ink],[fmt(D.best),'أطول سلسلة (يوم)','#B5606B'],
+    [fmt(D.act)+' / '+fmt(D.n),'أيام سجّلت فيها',RP_C.ink],[fmt(D.ses),'جلسة قراءة وذكر',RP_C.gold2],[bw,'أفضل أيامك في الأسبوع','#B5606B']];
+  tiles.forEach(function(tl,i){var col=i%3,row=Math.floor(i/3),x=60+(2-col)*328,yy=y+row*190;rpRR(x,yy,304,170,28);X.fillStyle=['#FAF4EC','#EEF6F4','#FCF0F0','#EEF6F4','#FAF4EC','#FCF0F0'][i];X.fill();X.lineWidth=2;X.strokeStyle=RP_C.rim;X.stroke();
     rpT(tl[0],x+152,yy+84,50,{a:'center',w:700,f:RP_F.n,c:tl[2],fit:270});rpT(tl[1],x+152,yy+134,22,{a:'center',c:RP_C.mu,fit:276});});
   y+=400;
   /* a chart per kind, over the days */
@@ -3544,20 +3725,67 @@ function rpDraw(D){var W=1080,H=rpH(D),cv=RP.cv||(RP.cv=document.createElement('
     X.strokeStyle=RP_C.track;X.lineWidth=2;X.beginPath();X.moveTo(l,bot+1);X.lineTo(r,bot+1);X.stroke();
     var gap=n>40?2:n>20?5:10,bwid=Math.max(3,(r-l-gap*(n-1))/Math.max(1,n));
     B.forEach(function(b,i){var x=r-(i+1)*bwid-i*gap,v=b.v[c],h=v/mx*(bot-top),ok=v>=b.g[c]&&v>0;   /* RTL: the first day on the right */
-      if(h>0){rpRR(x,bot-h,bwid,h,Math.min(8,bwid/2));var gg=X.createLinearGradient(0,bot-h,0,bot);gg.addColorStop(0,ok?RP_C.gold:col);gg.addColorStop(1,ok?'rgba(235,200,111,.35)':col+'55');X.fillStyle=gg;X.fill();}
+      if(h>0){rpRR(x,bot-h,bwid,h,Math.min(8,bwid/2));var gg=X.createLinearGradient(0,bot-h,0,bot);gg.addColorStop(0,ok?RP_C.gold:col);gg.addColorStop(1,ok?'rgba(201,160,106,.35)':col+'55');X.fillStyle=gg;X.fill();}
       else{X.fillStyle=RP_C.track;X.fillRect(x,bot-4,bwid,4);}
-      var gh=b.g[c]/mx*(bot-top);X.fillStyle='rgba(255,255,255,.55)';X.fillRect(x,bot-gh-1.5,bwid,3);});
+      var gh=b.g[c]/mx*(bot-top);X.fillStyle='rgba(47,95,91,.35)';X.fillRect(x,bot-gh-1.5,bwid,3);});
     rpT(rpDate(B[0].a,{day:'numeric',month:'short'}),r,y+372,22,{c:RP_C.fa});rpT(rpDate(B[n-1].a,{day:'numeric',month:'short'}),l,y+372,22,{c:RP_C.fa,a:'left'});
     rpT('المجموع '+uq(c,Math.round(D.c[c].sum)),540,y+372,24,{c:col,a:'center',w:500});
     y+=430;});
+  /* ---- (2026-11-26) more detail and drawings ---- */
+  /* how the days went: donut + legend */
+  var cyA=rpCard(y,440,'كيف مرّت أيامك',dpDays(D.dn.done+D.dn.part+D.dn.none+D.dn.rest));
+  var S4=[['أتممته كاملًا',D.dn.done,RP_C.gold],['أنجزت جزءًا منه',D.dn.part,RP_C.dhikr],['لم تبدأ',D.dn.none,RP_C.beige],['يوم راحة',D.dn.rest,'#B9BDC4']],ST4=S4.reduce(function(a,q){return a+q[1];},0)||1;
+  var dcx=270,dcy=cyA+150,dR=120,ang=-Math.PI/2;X.lineCap='butt';X.lineWidth=52;X.strokeStyle=RP_C.track;X.beginPath();X.arc(dcx,dcy,dR,0,7);X.stroke();
+  S4.forEach(function(q){if(!q[1])return;var a2=ang+Math.PI*2*q[1]/ST4;X.strokeStyle=q[2];X.beginPath();X.arc(dcx,dcy,dR,ang+.012,a2-.012);X.stroke();
+    var m=(ang+a2)/2;if(q[1]/ST4>=.07)rpT(pct(Math.round(q[1]/ST4*100)),dcx+dR*Math.cos(m),dcy+dR*Math.sin(m)+9,24,{a:'center',w:700,f:RP_F.n,c:q[2]===RP_C.beige?RP_C.gold2:'#fff'});ang=a2;});
+  rpT(pct(Math.round(D.dn.done/ST4*100)),dcx,dcy+10,46,{a:'center',w:700,f:RP_F.n,c:RP_C.ink});rpT('أيام كاملة',dcx,dcy+46,22,{a:'center',c:RP_C.mu});
+  S4.forEach(function(q,i){var yy=cyA+50+i*72;X.fillStyle=q[2];X.beginPath();X.arc(966,yy-9,11,0,7);X.fill();
+    rpT(q[0],940,yy,28,{c:RP_C.tx,w:500});rpT(fmt(q[1])+' · '+pct(Math.round(q[1]/ST4*100)),520,yy,26,{a:'left',c:RP_C.mu,f:RP_F.n,w:600});
+    if(i<3){X.fillStyle='#F0ECE8';X.fillRect(520,yy+26,456,2);}});
+  y+=470;
+  /* completion curve */
+  var cyB=rpCard(y,440,'تطوّر نسبة الإنجاز',D.curve.length>1?'متوسط كل فترة':''),CV=D.curve.filter(function(o){return o.v!=null;});
+  var l=150,r=976,top=cyB+30,bot=y+370;
+  [0,.5,1].forEach(function(v){var yy=bot-(bot-top)*v;X.fillStyle='#EDF0EF';X.fillRect(l,yy,r-l,2);rpT(pct(v*100),l-14,yy+8,20,{a:'right',c:RP_C.fa,f:RP_F.n});});
+  if(CV.length){var px=function(i){return CV.length===1?(l+r)/2:r-(r-l)*i/(CV.length-1);},py=function(v){return bot-(bot-top)*v;};  /* RTL: the oldest on the right */
+    X.beginPath();CV.forEach(function(o,i){var xx=px(i),yy=py(o.v);if(!i)X.moveTo(xx,yy);else{var x0=px(i-1),y0=py(CV[i-1].v),mxp=(x0+xx)/2;X.bezierCurveTo(mxp,y0,mxp,yy,xx,yy);}});
+    var path=new Path2D();path.moveTo(px(0),py(CV[0].v));CV.forEach(function(o,i){if(i){var x0=px(i-1),y0=py(CV[i-1].v),mxp=(x0+px(i))/2;path.bezierCurveTo(mxp,y0,mxp,py(o.v),px(i),py(o.v));}});
+    var area=new Path2D(path);area.lineTo(px(CV.length-1),bot);area.lineTo(px(0),bot);area.closePath();
+    var ag=X.createLinearGradient(0,top,0,bot);ag.addColorStop(0,'rgba(91,168,156,.40)');ag.addColorStop(1,'rgba(91,168,156,.03)');X.fillStyle=ag;X.fill(area);
+    X.lineWidth=5;X.lineJoin='round';X.lineCap='round';X.strokeStyle=RP_C.pages;X.stroke(path);
+    CV.forEach(function(o,i){X.fillStyle='#fff';X.beginPath();X.arc(px(i),py(o.v),7,0,7);X.fill();X.lineWidth=3;X.strokeStyle=RP_C.pages;X.stroke();});
+    var L=CV.length-1,lx2=px(L),ly2=py(CV[L].v),lb=pct(Math.round(CV[L].v*100));X.font='700 24px '+RP_F.n;var lw=X.measureText(lb).width+30;
+    var bx=Math.max(l,Math.min(r-lw,lx2-lw/2));rpRR(bx,Math.max(cyB-6,ly2-64),lw,42,12);X.fillStyle=RP_C.pages;X.fill();rpT(lb,bx+lw/2,Math.max(cyB-6,ly2-64)+30,24,{a:'center',w:700,f:RP_F.n,c:'#fff'});
+    X.fillStyle=RP_C.gold;X.beginPath();X.arc(lx2,ly2,9,0,7);X.fill();
+    rpT(rpDate(CV[0].a,{day:'numeric',month:'short'}),r,y+412,22,{c:RP_C.fa});rpT(rpDate(CV[L].a,{day:'numeric',month:'short'}),l,y+412,22,{c:RP_C.fa,a:'left'});}
+  y+=470;
+  /* weekdays: average completion, columns */
+  var cyC=rpCard(y,420,'أيام الأسبوع','متوسط الإنجاز'),wo=[6,0,1,2,3,4,5],cw=96,cg=(872-7*cw)/6,cb=y+340,ct=cyC+40;
+  wo.forEach(function(g,i){var x=976-(i+1)*cw-i*cg,av=D.wn[g]?D.wd[g]/D.wn[g]:0,h=(cb-ct)*av,best=g===D.bwd;
+    rpRR(x,ct,cw,cb-ct,22);X.fillStyle=RP_C.track;X.fill();
+    if(h>0){rpRR(x,cb-h,cw,h,22);var wg=X.createLinearGradient(0,cb-h,0,cb);wg.addColorStop(0,best?RP_C.pages:RP_C.dhikr);wg.addColorStop(1,best?'rgba(91,168,156,.55)':'rgba(227,154,162,.5)');X.fillStyle=wg;X.fill();}
+    rpT(D.wn[g]?pct(Math.round(av*100)):'—',x+cw/2,ct-14,22,{a:'center',w:700,f:RP_F.n,c:best?RP_C.gold2:RP_C.tx});
+    rpT(['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'][g],x+cw/2,cb+40,22,{a:'center',c:best?RP_C.gold2:RP_C.mu,w:best?700:400});});
+  y+=450;
+  /* between the prayers: where each kind happens */
+  var PN2=['بعد الفجر','الضحى','بعد الظهر','بعد العصر','بعد المغرب','بعد العشاء'],hD=110+6*66;
+  var cyD=rpCard(y,hD,'أوقات وِردك','بين الصلوات');
+  var mxS={},XR=[800,420];D.cs.forEach(function(c){mxS[c]=Math.max.apply(null,D.c[c].seg.concat([1e-9]));});
+  D.cs.forEach(function(c,j){var cx3=XR[j]-115;X.fillStyle=rpCol(c);X.beginPath();X.arc(cx3+60,cyD-6,9,0,7);X.fill();rpT(CF(c).label,cx3+44,cyD+2,24,{c:RP_C.tx,w:700});});
+  PN2.forEach(function(nm,i){var yy=cyD+40+i*66;rpT(nm,976,yy+8,26,{c:RP_C.tx});
+    D.cs.forEach(function(c,j){var len=230,sum=D.c[c].seg.reduce(function(a,v){return a+v;},0)||1,v=D.c[c].seg[i],f=v/mxS[c];
+      var xr=XR[j];rpRR(xr-len,yy-10,len,22,11);X.fillStyle=RP_C.track;X.fill();
+      if(v>0){var ww=Math.max(22,len*f);rpRR(xr-ww,yy-10,ww,22,11);X.fillStyle=rpCol(c);X.fill();}
+      rpT(pct(Math.round(v/sum*100)),xr-len-14,yy+9,22,{a:'right',c:RP_C.mu,f:RP_F.n,w:600});});});
+  y+=hD+30;
   /* the day map (weeks as columns, days as rows) */
   if(!(D.mode==='d'&&D.n<=7)){var ks=D.ks.slice(-53*7),off=dateOf(ks[0]).getDay(),wk=Math.ceil((ks.length+off)/7),cell=Math.min(34,Math.floor((800-(wk-1)*4)/wk)),gp=Math.max(2,Math.min(6,Math.floor(cell/6)));
     var cy1=rpCard(y,450,'خريطة الأيام','كل مربع يوم'),gw=wk*cell+(wk-1)*gp,x0=500+gw/2,tt=todayKey();
     for(var d=0;d<7;d++)rpT(['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'][d],x0+14,cy1+d*(cell+gp)+cell*.72,Math.min(20,cell*.6),{c:RP_C.fa,a:'left'});
     ks.forEach(function(k,i){var p=i+off,w=Math.floor(p/7),dd=p%7,x=x0-(w+1)*cell-w*gp,yy=cy1+dd*(cell+gp),v=pctDay(k),col;
-      if(isRest(k))col='rgba(126,216,201,.35)';else if(metAll(k))col=RP_C.gold;else if(v<=0)col=RP_C.track;else col='rgba(184,166,255,'+(.22+.6*v).toFixed(2)+')';
-      rpRR(x,yy,cell,cell,Math.min(8,cell/4));X.fillStyle=col;X.fill();if(k===tt){X.lineWidth=3;X.strokeStyle='#fff';X.stroke();}});
-    var ly=y+412,lg=[[RP_C.gold,'أتممته'],['rgba(184,166,255,.7)','جزء منه'],[RP_C.track,'لا شيء'],['rgba(126,216,201,.35)','راحة']],lx=976;
+      if(isRest(k))col='#D5D8DC';else if(metAll(k))col=RP_C.pages;else if(v<=0)col=RP_C.track;else col='rgba(227,154,162,'+(.25+.6*v).toFixed(2)+')';
+      rpRR(x,yy,cell,cell,Math.min(8,cell/4));X.fillStyle=col;X.fill();if(k===tt){X.lineWidth=3;X.strokeStyle=RP_C.gold2;X.stroke();}});
+    var ly=y+412,lg=[[RP_C.pages,'أتممته'],['rgba(227,154,162,.75)','جزء منه'],['#E6EAE9','لا شيء'],['#D5D8DC','راحة']],lx=976;
     lg.forEach(function(q){rpRR(lx-24,ly-20,24,24,6);X.fillStyle=q[0];X.fill();rpT(q[1],lx-34,ly,22,{c:RP_C.mu});X.font='400 22px '+RP_F.b;lx-=X.measureText(q[1]).width+80;});
     y+=480;}
   /* records */
@@ -3570,7 +3798,7 @@ function rpDraw(D){var W=1080,H=rpH(D),cv=RP.cv||(RP.cv=document.createElement('
   rows=rows.slice(0,7);
   rows.forEach(function(rw,i){var yy=cy2+i*54+20;X.fillStyle=rw[2];X.beginPath();X.arc(966,yy-8,7,0,7);X.fill();
     rpT(rw[0],944,yy,27,{c:RP_C.mu});rpT(rw[1],104,yy,28,{a:'left',w:700,f:RP_F.n,fit:430});
-    if(i<rows.length-1){X.fillStyle='rgba(255,255,255,.06)';X.fillRect(104,yy+22,872,2);}});
+    if(i<rows.length-1){X.fillStyle='#F0ECE8';X.fillRect(104,yy+22,872,2);}});
   y+=550;
   /* months */
   if(D.months.length>1){var ms=D.months,hh=150+ms.length*76-30,cy3=rpCard(y,hh,'الشهور'),cols=[[650,'الشهر']];
@@ -3616,7 +3844,8 @@ var RP_ICO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 function rpAdd(){var v=$('#v-reports');if(!v)return;var pt=v.querySelector(':scope>.ptitle');
   if(pt&&!pt.querySelector('[data-rp]')){var cb=pt.querySelector('[data-act="copy-sum"]'),bt='<button class="round-btn rp-tbtn" data-rp="open" aria-label="صورة مسيرتي">'+RP_ICO+'</button>';
     if(cb){cb.insertAdjacentHTML('beforebegin','<div class="rp-tb">'+bt);cb.parentNode.querySelector('.rp-tb').appendChild(cb);}else pt.insertAdjacentHTML('beforeend',bt);}
-  if(!v.querySelector('.rp-card')){var at=v.querySelector(':scope>.st-sec')||v.querySelector(':scope>.seg');
+  /* owner 2026-11-26 (later): «اجعل فقط ايقونة صغيرة بالاعلى … ولا تجعلها من ضمن التقارير»: no entry card any more */
+  if(false){var at=null;
     if(at)at.insertAdjacentHTML('afterend','<section class="card rp-card" data-rp="open" role="button" tabindex="0" aria-label="صورة مسيرتي: تقرير شامل في صورة تحفظها في الاستوديو">'
       +'<i class="rp-ic">'+RP_ICO+'</i><div><h3 class="h">صورة مسيرتي</h3><p>كل ذكرك وقراءتك مع مرور الأيام في صورة واحدة تحفظها في الاستوديو</p></div><span class="chip gold">افتح</span></section>');}}
 (function(){var rr3=renderReports;renderReports=function(){rr3.apply(this,arguments);try{rpAdd();stSecApply();}catch(e){}};
@@ -3900,6 +4129,43 @@ function dsAdd(){var v=$('#v-reports');if(!v||!v.firstElementChild||V.tab!=='rep
   var at=v.querySelector(':scope>.st-sec')||v.querySelector(':scope>.seg');if(!at)return;var html='';try{html=dsHTML();}catch(e){return;}
   at.insertAdjacentHTML('afterend',html);var n=v.querySelector(':scope>.dsh');if(n)n.setAttribute('data-sec','sum');}
 (function(){var rr=renderReports;renderReports=function(){rr.apply(this,arguments);try{dsAdd();stSecApply();}catch(e){}};})();
+
+
+/* ---------- «اجعل التقارير كلها بنفس نمط هذه الصورة الاخيرة حتى تتزن التقارير» (owner 2026-11-26) ----------
+   The statistics screen always wears the pastel «نسيم» look of the owner's dashboard mockup, whatever theme the app is in:
+   while the reports tab is open skinNow() answers 'nasim' (the app's own theme is untouched and comes back on leaving).
+   Every card gets the dashboard's centred title with a small rose icon; bars, tiles and the hero use its pastel colours
+   (rep1126.css). The «نظرة إحصائية عامة» dashboard (dash1126.js) therefore shows in every theme. */
+var REP={on:null};
+(function(){var sn=skinNow;skinNow=function(){try{if(V.tab==='reports'&&SKINS.nasim)return 'nasim';}catch(e){}return sn.apply(this,arguments);};
+  var rf=refresh;refresh=function(){var r=V.tab==='reports';if(r!==REP.on){REP.on=r;try{var nv=$('#nav');if(nv)nv._h=null;applyTheme();}catch(e){}}return rf.apply(this,arguments);};
+  try{REP.on=V.tab==='reports';applyTheme();}catch(e){}})();
+var REP_I={trend:'<path d="M3 17l6-6 4 3 7-8"/><path d="M15 6h5v5"/>',pie:'<path d="M11 4a8.5 8.5 0 1 0 9 9h-9V4z"/><path d="M14 3v7h7a7 7 0 0 0-7-7z"/>',
+  bars:'<rect x="4" y="13" width="4" height="7"/><rect x="10" y="9" width="4" height="11"/><rect x="16" y="5" width="4" height="15"/>',
+  cal:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>',fire:'<path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/>',
+  bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+  grid:'<rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/>',
+  scale:'<path d="M12 4v16M5 8h14M5 8l-3 7a3 3 0 0 0 6 0zM19 8l-3 7a3 3 0 0 0 6 0z"/>',cmp:'<path d="M7 4v16M17 4v16M3 8h8M13 16h8"/>'};
+var REP_MAP=[['منحنى','trend'],['تطوّر','trend'],['مقارنة','cmp'],['مؤشّر','star'],['التحليل','bulb'],['تشريح','clock'],['يومك','clock'],['أفهمك','user'],['خريطة','grid'],
+  ['ساعة','clock'],['أيام الأسبوع','bars'],['نتيجة','pie'],['أين','clock'],['أرقامك','star'],['تقويم','cal'],['توقّع','trend'],['الشهور','bars'],['سلاسل','fire'],
+  ['جلسات','bars'],['الصلوات','clock'],['التوازن','scale']];
+function repIcons(){var v=$('#v-reports');if(!v)return;
+  [].forEach.call(v.querySelectorAll(':scope>section.card'),function(sec){var h=sec.querySelector('h3.h');if(!h||h.querySelector('.rp-hi'))return;
+    var t=h.textContent.trim(),k='bars';for(var i=0;i<REP_MAP.length;i++)if(t.indexOf(REP_MAP[i][0])>=0){k=REP_MAP[i][1];break;}
+    h.insertAdjacentHTML('afterbegin','<i class="rp-hi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+REP_I[k]+'</svg></i>');
+    var row=h.parentElement;if(row&&row.classList.contains('between')&&row.parentElement===sec)row.classList.add('rp-hd');else if(row===sec)h.classList.add('rp-hc');});}
+(function(){var rr=renderReports;renderReports=function(){rr.apply(this,arguments);try{repIcons();}catch(e){}};})();
+
+
+/* (owner 2026-11-26) «١٠٠ تحسين بصري … والانميشين»: the screen entrance (polish1126.css 1-10, 52-55, 81-93) plays once when
+   a tab opens, not on every refresh; 99 gives the round goal number a small bump when it grows. */
+var PL={tab:null,t:0};
+function plIn(){var v=document.getElementById('v-'+V.tab);if(!v)return;[].forEach.call(document.querySelectorAll('.vt-in'),function(x){x.classList.remove('vt-in');});
+  void v.offsetWidth;v.classList.add('vt-in');clearTimeout(PL.t);PL.t=setTimeout(function(){v.classList.remove('vt-in');},1600);}
+(function(){var rf=refresh;refresh=function(){var r=rf.apply(this,arguments);try{if(PL.tab!==V.tab){PL.tab=V.tab;plIn();}}catch(e){}return r;};
+  document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-rsec]');if(b)setTimeout(function(){try{plIn();}catch(e){}},0);},true);
+  var last={};setInterval(function(){try{[].forEach.call(document.querySelectorAll('.dial b,.ly-dial b,#dial b'),function(el,i){var t=el.textContent;if(last[i]!=null&&last[i]!==t){el.classList.remove('p-bump');void el.offsetWidth;el.classList.add('p-bump');}last[i]=t;});}catch(e){}},700);})();
 
 
 refresh();
