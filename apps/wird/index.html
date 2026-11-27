@@ -1521,6 +1521,17 @@ html.cm-on #nav,html.cm-on #cuFab,html.cm-on .tchip{visibility:hidden}
 #scene,#amb,#lylSky{contain:strict;transform:translateZ(0)}
 .view.enter>*{animation-duration:.4s}
 </style>
+<style id="min1127">/* long press on the Quran dial → «إضافة دقائق قراءة» (owner 2026-11-27) */
+#dial{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.sheet.mn .mn-f{margin-top:14px}
+.sheet.mn .mn-f input{font-size:20px;text-align:center}
+.sheet.mn .mn-q{margin-top:12px;grid-template-columns:repeat(4,1fr)}
+.sheet.mn .mn-left{grid-column:1/-1}
+.sheet.mn .mn-bad{animation:mnShake .4s}
+@keyframes mnShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.sheet.mn .mn-f input::-webkit-inner-spin-button,.sheet.mn .mn-f input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.sheet.mn .mn-f input{-moz-appearance:textfield}
+</style>
 <style id="talwin1126">/* «ألوان الإنجاز» (owner 2026-11-26, v2) — the painting is drawn by talwin1126.js inside #scene */
 :root[data-skin="talwin"] #scene>svg:not(#twSvg){display:none}
 :root[data-skin="talwin"] #scene{background:#CDD2D5}
@@ -2043,7 +2054,7 @@ html.rp-on,html.rp-on body{overflow:hidden}
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" type="image/png">
 <style>html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}</style>
-<style>#v-settings::after{content:"نسخة الرابط 27/11 01:03";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
+<style>#v-settings::after{content:"نسخة الرابط 27/11 05:28";display:block;text-align:center;font-size:.78rem;opacity:.6;padding:14px 0 4px}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="sp-r" cx="60" cy="60" r="52"/><path class="sp-m" d="M72 30a32 32 0 1 0 18 52a26 26 0 1 1-18-52z"/></svg><b>وِرد</b><small>قرآن وذكر كل يوم</small></div>
@@ -4582,6 +4593,37 @@ var TW_IMG={c:"data:image/webp;base64,UklGRk6mAABXRUJQVlA4IEKmAADwcASdASogA7gGPm
   try{if(!ST.meta.twInit){ST.meta.twInit=1;ST.meta.twPrev=ST.s.skin;ST.s.skin=ID;save();}}catch(e){}
   try{var cs=document.getElementById('skinCss');if(cs)cs.textContent=skinCSS();}catch(e){}
   try{applyTheme();}catch(e){}
+})();
+
+
+/* ---------- إضافة دقائق القراءة بضغطة طويلة على الدائرة (owner 2026-11-27) ----------
+   «اجعل اضافة دقائق قراءة بدون عداد بالضغط ضغطة طويلة على دائرة القراءة ثم كتابة الدقائق»
+   On the home, in Quran mode, holding the dial for 0.6 s opens a small sheet with the keyboard up: type the minutes (or pick
+   one of the quick amounts) and «أضف» records them like the old «إضافة دقائق يدوياً». The timer is not touched. Dhikr keeps its own
+   long press (the dhikr sheet). */
+(function(){var lp=null,sx=0,sy=0;
+  function close(){var g=$('#mnHost');if(g)g.innerHTML='';}
+  function open(){var g=$('#mnHost');if(!g){g=document.createElement('div');g.id='mnHost';document.body.appendChild(g);}
+    var k=todayKey(),G=goal(k,'pages'),v=tot(k,'pages'),left=Math.max(0,G-v);
+    var q=[5,10,15,20,30,45,60];
+    g.innerHTML='<div class="scrim" data-act="mn-x"></div><div class="sheet gp mn" role="dialog" aria-label="إضافة دقائق قراءة"><div class="sheet-in"><div class="grab"></div>'
+      +'<div class="sh-head"><span class="ico">'+IC.book+'</span><div><h2>إضافة دقائق قراءة</h2><p>'+(left>0?'باقي '+fmtDur(left)+' على هدف اليوم':'بلغت هدف اليوم، ما شاء الله')+'</p></div><button class="round-btn" data-act="mn-x" aria-label="إغلاق">'+I.x+'</button></div>'
+      +'<form class="custom mn-f" data-form="mn"><input type="number" inputmode="numeric" min="1" max="1440" id="mnN" placeholder="كم دقيقة قرأت؟" aria-label="عدد الدقائق"><button class="btn" type="submit">أضف</button></form>'
+      +'<div class="gp-grid mn-q">'+q.map(function(n){return '<button class="cb num" type="button" data-act="mn-add" data-n="'+n+'">+'+fmt(n)+' د</button>';}).join('')+(left>0&&q.indexOf(left)<0&&left<=600?'<button class="cb num mn-left" type="button" data-act="mn-add" data-n="'+left+'">الباقي '+fmtDur(left)+'</button>':'')+'</div>'
+      +'</div></div>';
+    setTimeout(function(){var i=$('#mnN');if(i)try{i.focus();}catch(e){}},260);}
+  function add(n){n=Math.round(+n);if(!(n>0))return false;n=Math.min(n,1440);addEntry('pages',n);close();refresh();play('soft');buzz(15);
+    toast('أُضيفت '+fmtDur(n)+' إلى قراءة اليوم',{action:{label:'تراجع',fn:function(){try{undoLast('pages');refresh();}catch(e){}}}});return true;}
+  document.addEventListener('pointerdown',function(e){var d=e.target.closest&&e.target.closest('#dial');if(!d||V.tab!=='today'||homeMode()!=='pages')return;
+    sx=e.clientX;sy=e.clientY;clearTimeout(lp);lp=setTimeout(function(){V.noTap=Date.now();buzz(20);open();},600);},{passive:true});
+  document.addEventListener('pointermove',function(e){if(lp&&(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10)){clearTimeout(lp);lp=null;}},{passive:true});
+  ['pointerup','pointercancel'].forEach(function(t){document.addEventListener(t,function(){clearTimeout(lp);lp=null;},{passive:true});});
+  document.addEventListener('contextmenu',function(e){if(e.target.closest&&e.target.closest('#dial'))e.preventDefault();});
+  document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-act="mn-x"],[data-act="mn-add"]');if(!b)return;ev.stopPropagation();
+    if(b.dataset.act==='mn-x')close();else add(b.dataset.n);},true);
+  document.addEventListener('submit',function(ev){var f=ev.target;if(!f||f.dataset.form!=='mn')return;ev.preventDefault();ev.stopPropagation();
+    var i=$('#mnN');if(!add(i&&i.value)){if(i){i.focus();i.classList.add('mn-bad');setTimeout(function(){i.classList.remove('mn-bad');},600);}}},true);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('#mnHost')&&$('#mnHost').innerHTML)close();});
 })();
 
 
